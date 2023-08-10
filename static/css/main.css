@@ -23,3 +23,12 @@
 .max-width {
   width: 100%;
 }
+
+form div {
+  all: initial;
+  display: block;
+}
+
+.margin-top-down {
+  margin: 1rem 0;
+}
