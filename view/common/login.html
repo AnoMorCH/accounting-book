@@ -2,31 +2,36 @@
 <html lang="en">
   <head>
     <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Санаторий</title>
-    <link rel="stylesheet" href="/au/static/css/brightlight-green.css" />
   </head>
 
   <body>
-    <header id="navbar-for-unauthorized-users"></header>
+    <nav id="nav-common"></nav>
 
-    <!-- TODO. Find a way to take away the nav. -->
-    <nav>
-      <header>
-        <a href="#">Санаторий</a>
-      </header>
-      <input type="checkbox" id="nav" hidden checked />
-      <div overflow>
-        <ul>
-          <!--active link in navbar with active attribute-->
-          <li><a href="#">Авторизация</a></li>
-          <li><a href="#">Регистрация</a></li>
-        </ul>
-      </div>
-    </nav>
+    <section container>
+      <h3>Авторизация</h3>
 
-    <main>
+      <form method="post">
+        <fieldset>
+          <legend>Введите свои данные</legend>
 
-    </main>
+          <div>
+            <label for="email">Эл. почта</label>
+            <input type="email" name="email" id="email">
+          </div>
+
+          <div>
+            <label for="password">Пароль</label>
+            <input type="password" name="password" id="password">
+          </div>
+
+          <div>
+            <input type="submit" value="Отправить">
+          </div>
+        </fieldset>
+      </form>
+    </section>
+  
+    <script src="https://code.jquery.com/jquery-1.11.3.min.js"></script>
+    <script src="/au/static/js/html-inclusion.js"></script>
   </body>
 </html>
