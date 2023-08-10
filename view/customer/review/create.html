@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Санаторий</title>
+    <link rel="stylesheet" href="/au/static/css/brightlight-green.css" />
+    <link rel="stylesheet" href="/au/static/css/main.css" />
+  </head>
+
+  <body>
+    <nav id="nav-customer"></nav>
+
+    <section container>
+      <h3>Создать новый отзыв</h3>
+
+      <form method="post">
+        <fieldset>
+          <legend>Пожалуйста, введите данные</legend>
+
+          <div class="grid grid-two-columns-wrapper">
+            <label for="room-number">Номер комнаты</label>
+
+            <select name="room-number" id="room-number">
+              <option value="xxxx">xxxx</option>
+              <option value="yyyy">yyyy</option>
+            </select>
+
+            <label for="coming-date">Дата заселения</label>
+            <input type="date" name="coming-date" id="coming-date">
+
+            <label for="leaving-date">Дата выселения</label>
+            <input type="date" name="leaving-date" id="leaving-date">
+          </div>
+
+          <label for="review-text">Текст отзыва</label>
+          <textarea name="review-text" id="review-text" cols="30" rows="10"></textarea>
+
+          <div>
+            <input type="submit" value="Отправить">
+          </div>
+        </fieldset>
+      </form>
+    </section>
+
+    <script src="https://code.jquery.com/jquery-1.11.3.min.js"></script>
+    <script src="/au/static/js/html-inclusion.js"></script>
+    <script src="https://kit.fontawesome.com/d41b91cba2.js" crossorigin="anonymous"></script>
+  </body>
+</html>

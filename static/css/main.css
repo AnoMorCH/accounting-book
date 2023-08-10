@@ -1,7 +1,15 @@
-.grid-wrapper {
+.grid {
   display: grid;
-  grid-template-columns: 8fr 1fr 1fr;
   gap: 1rem;
+  align-items: center;
+}
+
+.grid-list-wrapper {
+  grid-template-columns: 8fr 1fr 1fr;
+}
+
+.grid-two-columns-wrapper {
+  grid-template-columns: 1fr 1fr;
 }
 
 .inline-elements {
@@ -10,4 +18,8 @@
 
 .inline-elements > * {
   margin-left: 0.5rem;
+}
+
+.max-width {
+  width: 100%;
 }
