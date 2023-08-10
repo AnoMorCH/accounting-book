@@ -1,0 +1,13 @@
+.grid-wrapper {
+  display: grid;
+  grid-template-columns: 8fr 1fr 1fr;
+  gap: 1rem;
+}
+
+.inline-elements {
+  display: flex;
+}
+
+.inline-elements > * {
+  margin-left: 0.5rem;
+}
