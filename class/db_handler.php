@@ -47,7 +47,6 @@ class DBHandler
             $obj = $stmt->fetch();
             return $obj;
         } else {
-            print_r($stmt);
             $error_message = "Объект с переданными параметрами не был найден";
             throw new Exception($error_message);
         }

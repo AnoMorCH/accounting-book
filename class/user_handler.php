@@ -30,22 +30,22 @@ class UserHandler extends DBHandler
     /**
      * Вернуть текущую позицию пользователя.
      */
-    public function getPosition(): string 
+    public function getPosition(): string
     {
-        if (!$this->_isAuthenticated()) {
-            return UserPosition::Guest->value;
-        } else {
+        if ($this->_isAuthenticated()) {
             $position_id = $this->_getPositionId();
             $position_obj = $this->getObject("user_position", "name", $position_id);
             $position = $position_obj->name;
             return $position;
+        } else {
+            return UserPosition::Guest->value;
         }
     }
 
     /**
      * Получить ИД стандартной позиции при регистрации нового пользователя.
      */
-    private function _getStandardPositionId(): int 
+    private function _getStandardPositionId(): int
     {
         $standard_position_obj = $this->getObject(
             "user_position",
@@ -58,11 +58,12 @@ class UserHandler extends DBHandler
     /**
      * Вернуть текущий ИД позиции пользователя.
      */
-    private function _getPositionId(): int {
+    private function _getPositionId(): int
+    {
         $user_id = $this->_getCurrentId();
         $user_obj = $this->getObject("user", "role_id", $user_id);
-        $position_id = $user_obj->position_id; 
-        return $position_id;
+        $user_position_id = $user_obj->position_id;
+        return $user_position_id;
     }
 
     /**
@@ -84,7 +85,7 @@ class UserHandler extends DBHandler
     ): void {
         $query = "INSERT INTO user (email, password, first_name, last_name, position_id)
                   VALUES (:email, :password, :first_name, :last_name, :position_id);";
-        $pdo_conn = $this->getPDOConn(); 
+        $pdo_conn = $this->getPDOConn();
         $stmt = $pdo_conn->prepare($query);
         $stmt->execute([
             "email" => $email,
@@ -98,7 +99,7 @@ class UserHandler extends DBHandler
     /**
      * Проверить, авторизовался ли пользователь.
      */
-    public function _isAuthenticated(): bool 
+    public function _isAuthenticated(): bool
     {
         return isset($_COOKIE[COOKIE_NAME_OF_USER_ID]);
     }
@@ -107,14 +108,16 @@ class UserHandler extends DBHandler
      * Проверить, является ли переданные данными корректными, чтобы создать
      * нового пользователя. 
      */
-    private function _canBeCreated(string $email): bool {
+    private function _canBeCreated(string $email): bool
+    {
         return $this->_isEmailUnique($email);
     }
 
     /**
      * Проверить, есть ли уже пользователи с запрашиваемой эл. почтой. 
      */
-    private function _isEmailUnique(string $email): bool {
+    private function _isEmailUnique(string $email): bool
+    {
         $query = "SELECT * FROM user WHERE email = :email";
         $pdo_conn = $this->getPDOConn();
         $stmt = $pdo_conn->prepare($query);

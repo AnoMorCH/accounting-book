@@ -10,10 +10,12 @@ class Access extends UserHandler
 {
     private $_authorized_user_position;
     private $_actual_user_position;
+    private $_users_homepage_by_position;
 
     public function __construct(string $authorized_user_position) {
         $this->_authorized_user_position = $authorized_user_position;
-        $this->_actual_user_position = (new UserHandler())->getPosition();
+        $this->_actual_user_position = $this->getPosition();
+        $this->_users_homepage_by_position = $this->_getBasicUsersHomepage();
     }
 
     /**
@@ -38,19 +40,26 @@ class Access extends UserHandler
     }
 
     /**
+     * Получить словарь типа "роль пользователя" => "ссылка на домашнюю стр.".
+     */
+    private function _getBasicUsersHomepage(): array 
+    {
+        $basic_users_homepage = [
+            UserPosition::Guest->value => GUESTS_HOMEPAGE_ADDR,
+            UserPosition::Customer->value => CUSTOMER_HOMEPAGE_ADDR,
+            UserPosition::Admin->value => ADMIN_HOMEPAGE_ADDR,
+        ];
+        return $basic_users_homepage;
+    }
+
+    /**
      * Получить адрес домашней страницы
      */
     private function _getUsersHomepageRelativeAddr(): string 
     {
-        $users_homepage_addr = null;
-
-        if ($this->_actual_user_position == UserPosition::Guest->value) {
-            $users_homepage_addr = GUESTS_HOMEPAGE_ADDR;
-        } elseif ($this->_actual_user_position == UserPosition::Customer->value) {
-            $users_homepage_addr = CUSTOMER_HOMEPAGE_ADDR;
-        } elseif ($this->_actual_user_position == UserPosition::Admin->value) {
-            $users_homepage_addr = ADMIN_HOMEPAGE_ADDR;
-        }
+        $users_homepage_addr = $this->_users_homepage_by_position[
+            $this->_actual_user_position
+        ];
 
         if (is_null($users_homepage_addr)) {
             $error_message = "Дана неизвестная роль для пользователя!";
