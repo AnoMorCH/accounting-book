@@ -14,7 +14,7 @@ class Access extends UserHandler
 
     public function __construct(string $authorized_user_position) {
         $this->_authorized_user_position = $authorized_user_position;
-        $this->_actual_user_position = $this->getPosition();
+        $this->_actual_user_position = $this->_getPosition();
         $this->_users_homepage_by_position = $this->_getBasicUsersHomepage();
     }
 

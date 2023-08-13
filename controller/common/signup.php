@@ -6,7 +6,7 @@ include_once TOP_DIR . "/enum/user_position.php";
 include_once TOP_DIR . "/helper.php";
 
 /**
- * Обработать контроллер по демонстрации содержимого шаблона login.html.
+ * Обработать контроллер по демонстрации содержимого шаблона signup.html.
  */
 function signup(): string 
 {

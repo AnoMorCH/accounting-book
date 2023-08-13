@@ -28,9 +28,48 @@ class UserHandler extends DBHandler
     }
 
     /**
+     * Авторизовать пользователя, основываясь на информации, переданной 
+     * клиентом на сервер через веб-интерфейс HTML.
+     */
+    public function login(string $email, string $password): void 
+    {
+        try {
+            $user = $this->getObject("user", "email", $email);
+            if ($this->_isPasswordCorrect($user->password, $password)) {
+                $this->_loginUsingCookie($user->email);
+            }
+        } catch (Exception $exception) {
+            $error_message = "Не удалось войти. Переданы неверные данные";
+            throw new Exception($error_message);
+        }
+    }
+
+    /**
+     * Авторизовать пользователя в систему через механизм COOKIE.
+     */
+    private function _loginUsingCookie(int $email): void 
+    {
+        $cookie_lifespan = 3600;
+        $cookie_expiration_time = time() + $cookie_lifespan;
+        setcookie("user_email", $email, $cookie_expiration_time, "/"); 
+    }
+
+    /**
+     * Проверить, является ли пароль, переданный клиентом через
+     * веб-интерфейс HTML, правильным на основании информации, которая 
+     * хранится в БД.
+     */
+    private function _isPasswordCorrect(
+        string $actual_password, 
+        string $inputted_password
+    ): bool {
+        return $actual_password == $inputted_password;
+    }
+
+    /**
      * Вернуть текущую позицию пользователя.
      */
-    public function getPosition(): string
+    protected function _getPosition(): string
     {
         if ($this->_isAuthenticated()) {
             $position_id = $this->_getPositionId();
