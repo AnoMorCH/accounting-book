@@ -20,6 +20,7 @@ class UserHandler extends DBHandler
         string $first_name,
         string $last_name
     ): void {
+        // TODO. Think about refactoring it.
         if (!$this->_canBeCreated($email)) {
             $error_message = "К сожалению, данный адрес эл. почты уже занят.";
             throw new Exception($error_message);
@@ -33,25 +34,36 @@ class UserHandler extends DBHandler
      */
     public function login(string $email, string $password): void 
     {
-        try {
-            $user = $this->getObject("user", "email", $email);
-            if ($this->_isPasswordCorrect($user->password, $password)) {
-                $this->_loginUsingCookie($user->email);
-            }
-        } catch (Exception $exception) {
+        $user = $this->getObject("user", "email", $email);
+        if ($this->_isPasswordCorrect($user->password, $password)) {
+            $this->_loginUsingCookie($user->id);
+        } else {
             $error_message = "Не удалось войти. Переданы неверные данные";
             throw new Exception($error_message);
         }
     }
 
     /**
+     * Выйти из текущей учетной записи путем удаления из куки ИД текущего 
+     * пользователя (проверка, авторизован ли пользователь задается при 
+     * помощи задачи его ИД).
+     */
+    public function logout(): void
+    {
+        if (isset($_COOKIE[COOKIE_NAME_OF_USER_ID])) {
+            unset($_COOKIE[COOKIE_NAME_OF_USER_ID]);
+        }
+        setcookie(COOKIE_NAME_OF_USER_ID, "", time() - 1, "/");
+    }
+
+    /**
      * Авторизовать пользователя в систему через механизм COOKIE.
      */
-    private function _loginUsingCookie(int $email): void 
+    private function _loginUsingCookie(string $user_id): void 
     {
         $cookie_lifespan = 3600;
         $cookie_expiration_time = time() + $cookie_lifespan;
-        setcookie("user_email", $email, $cookie_expiration_time, "/"); 
+        setcookie(COOKIE_NAME_OF_USER_ID, $user_id, $cookie_expiration_time, "/"); 
     }
 
     /**
