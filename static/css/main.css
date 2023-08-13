@@ -24,11 +24,14 @@
   width: 100%;
 }
 
-form div {
-  all: initial;
-  display: block;
-}
-
 .margin-top-down {
   margin: 1rem 0;
+}
+
+.color-of-success-message {
+  color: green;
+}
+
+.color-of-failure-message {
+  color: red;
 }

@@ -5,6 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Санаторий</title>
     <link rel="stylesheet" href="/au/static/css/brightlight-green.css" />
+    <link rel="stylesheet" href="/au/static/css/main.css" />
   </head>
 
   <body>
@@ -40,6 +41,14 @@
           <div>
             <input type="submit" value="Отправить">
           </div>
+
+          <?php
+          if (isset($user_created_successfully)) {
+            echo "<div><div class='color-of-success-message'>{$user_created_successfully}</div></div>";
+          } elseif (isset($user_hasnt_been_created)) {
+            echo "<div><div class='color-of-failure-message'>{$user_hasnt_been_created}</div></div>";
+          }
+          ?>
         </fieldset>
       </form>
     </section>
