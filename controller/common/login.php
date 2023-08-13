@@ -17,7 +17,6 @@ function login(): string
     if ($_SERVER["REQUEST_METHOD"] == "POST") {
         try {
             (new UserHandler())->login($_POST["email"], $_POST["password"]);
-            // TODO. Solve the issue with access.
             $access->redirectUserToHisHomepageIfNeeded();
         } catch(Exception $exception) {
             $context = ["login_failed" =>$exception->getMessage()];

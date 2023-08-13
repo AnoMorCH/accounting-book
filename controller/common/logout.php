@@ -2,12 +2,14 @@
 include_once "../../consts.php";
 include_once TOP_DIR . "/class/user_handler.php";
 include_once TOP_DIR . "/class/access.php";
-include_once TOP_DIR . "/enum/user_position.php";
+include_once TOP_DIR . "/urls.php";
 
 function logout(): void
 {
     (new UserHandler())->logout();
-    (new Access(UserPosition::Guest->value))->redirectUserToHisHomepageIfNeeded();
+    $guest_homepage_addr = GUESTS_HOMEPAGE_ADDR;
+    header("Location: {$guest_homepage_addr}");
+    exit;
 }
 
 echo logout();

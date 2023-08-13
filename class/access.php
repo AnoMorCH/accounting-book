@@ -1,5 +1,6 @@
 <?php
 include_once "../consts.php";
+include_once TOP_DIR . "/urls.php";
 include_once TOP_DIR . "/enum/user_position.php";
 include_once TOP_DIR . "/class/user_handler.php";
 
@@ -12,7 +13,8 @@ class Access extends UserHandler
     private $_actual_user_position;
     private $_users_homepage_by_position;
 
-    public function __construct(string $authorized_user_position) {
+    public function __construct(string $authorized_user_position)
+    {
         $this->_authorized_user_position = $authorized_user_position;
         $this->_actual_user_position = $this->_getPosition();
         $this->_users_homepage_by_position = $this->_getBasicUsersHomepage();
@@ -42,7 +44,7 @@ class Access extends UserHandler
     /**
      * Получить словарь типа "роль пользователя" => "ссылка на домашнюю стр.".
      */
-    private function _getBasicUsersHomepage(): array 
+    private function _getBasicUsersHomepage(): array
     {
         $basic_users_homepage = [
             UserPosition::Guest->value => GUESTS_HOMEPAGE_ADDR,
@@ -55,11 +57,9 @@ class Access extends UserHandler
     /**
      * Получить адрес домашней страницы
      */
-    private function _getUsersHomepageRelativeAddr(): string 
+    private function _getUsersHomepageRelativeAddr(): string
     {
-        $users_homepage_addr = $this->_users_homepage_by_position[
-            $this->_actual_user_position
-        ];
+        $users_homepage_addr = $this->_users_homepage_by_position[$this->_actual_user_position];
 
         if (is_null($users_homepage_addr)) {
             $error_message = "Дана неизвестная роль для пользователя!";
