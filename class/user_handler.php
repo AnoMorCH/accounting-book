@@ -20,19 +20,19 @@ class UserHandler extends DBHandler
         string $first_name,
         string $last_name
     ): void {
-        // TODO. Think about refactoring it.
-        if (!$this->_canBeCreated($email)) {
+        if ($this->_canBeCreated($email)) {
+            $this->_create($email, $password, $first_name, $last_name);
+        } else {
             $error_message = "К сожалению, данный адрес эл. почты уже занят.";
             throw new Exception($error_message);
         }
-        $this->_create($email, $password, $first_name, $last_name);
     }
 
     /**
      * Авторизовать пользователя, основываясь на информации, переданной 
      * клиентом на сервер через веб-интерфейс HTML.
      */
-    public function login(string $email, string $password): void 
+    public function login(string $email, string $password): void
     {
         $user = $this->getObject("user", "email", $email);
         if ($this->_isPasswordCorrect($user->password, $password)) {
@@ -59,11 +59,11 @@ class UserHandler extends DBHandler
     /**
      * Авторизовать пользователя в систему через механизм COOKIE.
      */
-    private function _loginUsingCookie(string $user_id): void 
+    private function _loginUsingCookie(string $user_id): void
     {
         $cookie_lifespan = 3600;
         $cookie_expiration_time = time() + $cookie_lifespan;
-        setcookie(COOKIE_NAME_OF_USER_ID, $user_id, $cookie_expiration_time, "/"); 
+        setcookie(COOKIE_NAME_OF_USER_ID, $user_id, $cookie_expiration_time, "/");
     }
 
     /**
@@ -72,7 +72,7 @@ class UserHandler extends DBHandler
      * хранится в БД.
      */
     private function _isPasswordCorrect(
-        string $actual_password, 
+        string $actual_password,
         string $inputted_password
     ): bool {
         return $actual_password == $inputted_password;
