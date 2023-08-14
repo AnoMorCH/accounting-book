@@ -47,9 +47,9 @@ class Access extends UserHandler
     private function _getBasicUsersHomepage(): array
     {
         $basic_users_homepage = [
-            UserPosition::Guest->value => GUESTS_HOMEPAGE_ADDR,
-            UserPosition::Customer->value => CUSTOMER_HOMEPAGE_ADDR,
-            UserPosition::Admin->value => ADMIN_HOMEPAGE_ADDR,
+            UserPosition::Guest->value => URLS["guest_homepage"],
+            UserPosition::Customer->value => URLS["customer_homepage"],
+            UserPosition::Admin->value => URLS["admin_homepage"],
         ];
         return $basic_users_homepage;
     }

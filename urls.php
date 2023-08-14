@@ -1,5 +1,14 @@
 <?php
 
-const GUESTS_HOMEPAGE_ADDR = "/au/controller/common/login.php";
-const CUSTOMER_HOMEPAGE_ADDR = "";
-const ADMIN_HOMEPAGE_ADDR = "";
+const URLS = [
+    // Страницы неавторизованного пользователя.
+    "guest_homepage" => "/au/controller/common/login.php",
+    "login_page" => "/au/controller/common/login.php",
+    "signup_page" => "/au/controller/common/signup.php",
+
+    // Страницы клиента.
+    "customer_homepage" => "",
+
+    // Страницы администратора.
+    "admin_homepage" => ""
+];
