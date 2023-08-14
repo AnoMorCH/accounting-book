@@ -9,7 +9,9 @@
   </head>
 
   <body>
-    <nav id="nav-customer"></nav>
+    <nav id="nav-customer">
+      <?php include TOP_DIR . "/navbar/customer.php"; ?>
+    </nav>
 
     <section container>
       <h3>Мои отзывы</h3>
@@ -35,22 +37,29 @@
           <b>Список моих отзывов</b>
         </p>
 
-        <div class="grid grid-list-wrapper">
-          <div>Отзыв от ХХ.ХХ.ХХ</div>
+        <?php
+        foreach ($reviews_list as $review) {
+          echo "
+            <div class='grid grid-list-wrapper'>
+              <a href='{$urls["this_review_page"]}?id={$review->id}' class='inline-elements'>
+                Отзыв от
+                {$review->date_of_writing}
+              </a>
 
-          <a href="#" class="inline-elements">
-            <div>Изменить</div>
-          </a>
+              <a href='' class='inline-elements'>
+                <div>Изменить</div>
+              </a>
 
-          <a href="#" class="inline-elements">
-            <div>Удалить</div>
-          </a>
-        </div>
+              <a href='' class='inline-elements'>
+                <div>Удалить</div>
+              </a>
+            </div>
+          ";
+        }
+        ?>
       </div>
     </section>
 
-    <script src="https://code.jquery.com/jquery-1.11.3.min.js"></script>
-    <script src="/au/static/js/html-inclusion.js"></script>
     <script src="https://kit.fontawesome.com/d41b91cba2.js" crossorigin="anonymous"></script>
   </body>
 </html>
