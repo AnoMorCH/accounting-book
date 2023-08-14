@@ -7,12 +7,13 @@ include_once TOP_DIR . "/enum/user_position.php";
 include_once TOP_DIR . "/helper.php";
 
 /**
- * Обработать контроллер по демонстрации содержимого шаблона login.html.
+ * Обработать контроллер по демонстрации содержимого шаблона common/login.html.
  */
 function login(): string
 {
     $access = new Access(UserPosition::Guest->value);
     $access->redirectUserToHisHomepageIfNeeded();
+    // TODO. Put "template_path" everywhere at the bottom of the func.
     $template_path = TOP_DIR . "/view/common/login.html";
     $context = new Context();
 
