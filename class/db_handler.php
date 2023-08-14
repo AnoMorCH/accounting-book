@@ -47,8 +47,34 @@ class DBHandler
             $obj = $stmt->fetch();
             return $obj;
         } else {
+            print_r("mistake");
             $error_message = "Объект с переданными параметрами не был найден";
             throw new Exception($error_message);
         }
+    }
+
+    /**
+     * Получить все объекты из БД (можно также задать определенные
+     * ограничения на получаемые объекты).
+     */
+    public function getObjects(
+        string $table_name,
+        string $attr_name = null,
+        string $attr_value = null
+    ): array {
+        $pdo_conn = $this->getPDOConn();
+        if (is_null($attr_name) || is_null($attr_value)) {
+            $query = "SELECT * FROM {$table_name}";
+            $stmt = $pdo_conn->prepare($query);
+            $stmt->execute();
+        } else {
+            $query = "SELECT *
+                      FROM {$table_name}
+                      WHERE {$attr_name} = :{$attr_name}";
+            $stmt = $pdo_conn->prepare($query);
+            $stmt->execute(["{$attr_name}" => $attr_value]);
+        }
+        $objs = $stmt->fetchAll();
+        return $objs;
     }
 }
