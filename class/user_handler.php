@@ -85,7 +85,7 @@ class UserHandler extends DBHandler
     {
         if ($this->_isAuthenticated()) {
             $position_id = $this->_getPositionId();
-            $position_obj = $this->getObject("user_position", "name", $position_id);
+            $position_obj = $this->getObject("user_position", "id", $position_id);
             $position = $position_obj->name;
             return $position;
         } else {
@@ -112,7 +112,7 @@ class UserHandler extends DBHandler
     private function _getPositionId(): int
     {
         $user_id = $this->_getCurrentId();
-        $user_obj = $this->getObject("user", "role_id", $user_id);
+        $user_obj = $this->getObject("user", "position_id", $user_id);
         $user_position_id = $user_obj->position_id;
         return $user_position_id;
     }
