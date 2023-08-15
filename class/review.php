@@ -10,20 +10,14 @@ include_once TOP_DIR . "/class/db_handler.php";
  */
 class Review extends DBHandler
 {
-    public $value;
-
-    public function __construct(string $id)
-    {
-        $this->value = $this->_getObject($id);
-    }
-
     /**
      * Получить объект сущности user, где пользователь является автором
      * какого-либо отзыва.
      */
-    public function getAuthor(): stdClass
+    public function getAuthor(string $review_id): stdClass
     {
-        $author = $this->getObject("user", "id", $this->value->user_id);
+        $review = $this->getObject("review", "id", $review_id);
+        $author = $this->getObject("user", "id", $review->user_id);
         return $author;
     }
 
@@ -31,13 +25,9 @@ class Review extends DBHandler
      * Получить объект сущности review_status, где показан статус какого-либо
      * отзыва в качестве объекта stdClass.
      */
-    public function getStatus(): stdClass
+    public function getStatus(string $review_id): stdClass
     {
-        $status = $this->getObject(
-            "review_status", 
-            "id", 
-            $this->value->status_id
-        );
+        $status = $this->getObject("review_status", "id", $review_id);
         return $status;
     }
 
@@ -45,9 +35,9 @@ class Review extends DBHandler
      * Получить список оказанных в указанном отзыве услуг в качестве списка 
      * строк.
      */
-    public function getServices(): array
+    public function getServices(string $review_id): array
     {
-        $review_services_ids = $this->getObjects("review_n_service", "review_id", $this->value->id);
+        $review_services_ids = $this->getObjects("review_n_service", "review_id", $review_id);
         $review_services = [];
         foreach ($review_services_ids as $review_service_id) {
             $service = $this->getObject("service", "id", $review_service_id->service_id);
@@ -57,11 +47,20 @@ class Review extends DBHandler
     }
 
     /**
+     * Получить все отзывы, написанные пользователем с определенным ИД.
+     */
+    public function getAllWrittenByUser(string $user_id): array
+    {
+        $reviews_list = $this->getObjects("review", "user_id", $user_id);
+        return $reviews_list;
+    }
+
+    /**
      * Получить объект review из БД по его ИД.
      */
-    private function _getObject(string $id): stdClass
+    public function get(string $review_id): stdClass
     {
-        $obj = $this->getObject("review", "id", $id);
+        $obj = $this->getObject("review", "id", $review_id);
         return $obj;
     }
 }

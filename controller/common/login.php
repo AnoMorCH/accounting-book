@@ -13,10 +13,8 @@ function login(): string
 {
     $access = new Access(UserPosition::Guest->value);
     $access->redirectUserToHisHomepageIfNeeded();
-    // TODO. Put "template_path" everywhere at the bottom of the func.
-    $template_path = TOP_DIR . "/view/common/login.html";
     $context = new Context();
-
+    
     if ($_SERVER["REQUEST_METHOD"] == "POST") {
         try {
             (new UserHandler())->login($_POST["email"], $_POST["password"]);
@@ -25,7 +23,8 @@ function login(): string
             $context->append("login_failed", $exception->getMessage());
         }
     }
-
+    
+    $template_path = TOP_DIR . "/view/common/login.html";
     return get_html($template_path, $context->value);
 }
 

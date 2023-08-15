@@ -13,9 +13,8 @@ function signup(): string
 {
     $access = new Access(UserPosition::Guest->value);
     $access->redirectUserToHisHomepageIfNeeded();
-    $template_path = TOP_DIR . "/view/common/signup.html";
     $context = new Context();
-
+    
     if ($_SERVER["REQUEST_METHOD"] == "POST") {
         try {
             (new UserHandler())->signup(
@@ -35,7 +34,8 @@ function signup(): string
             );
         }
     }
-
+    
+    $template_path = TOP_DIR . "/view/common/signup.html";
     return get_html($template_path, $context->value);
 }
 
