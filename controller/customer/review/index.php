@@ -15,13 +15,14 @@ function index(): string
     $access = new Access(UserPosition::Customer->value);
     $access->redirectUserToHisHomepageIfNeeded();
     $context = new Context();
-
+    
     if ($_SERVER["REQUEST_METHOD"] == "GET") {
         $review_id = $_GET["id"];
         $review = new Review();
-        $context->append("review", $review->get($review_id));
+        $review_obj = $review->get($review_id);
+        $context->append("review", $review_obj);
         $context->append("review_author", $review->getAuthor($review_id));
-        $context->append("review_status", $review->getStatus($review_id));
+        $context->append("review_status", $review->getStatus($review_obj->status_id));
         $context->append("review_services", $review->getServices($review_id));
     }
 
