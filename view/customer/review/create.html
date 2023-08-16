@@ -9,7 +9,9 @@
   </head>
 
   <body>
-    <nav id="nav-customer"></nav>
+    <nav id="nav-customer">
+      <?php include TOP_DIR . "/navbar/customer.php" ?>
+    </nav>
 
     <section container>
       <h3>Создать новый отзыв</h3>
@@ -22,31 +24,64 @@
             <label for="room-number">Номер комнаты</label>
 
             <select name="room-number" id="room-number">
-              <option value="xxxx">xxxx</option>
-              <option value="yyyy">yyyy</option>
+              <?php
+              foreach ($rooms as $room) {
+                echo "
+                  <option value='{$room->number}'>{$room->number}</option>
+                ";
+              }
+              ?>
             </select>
 
             <label for="coming-date">Дата заселения</label>
-            <input type="date" name="coming-date" id="coming-date">
+            <input type="date" name="coming-date" id="coming-date" required>
 
             <label for="leaving-date">Дата выселения</label>
-            <input type="date" name="leaving-date" id="leaving-date">
+            <input type="date" name="leaving-date" id="leaving-date" required>
+
+            <span>Список оказанных услуг</span>
+            <div class="basic-div">
+              <?php
+              foreach ($available_services as $available_service) {
+                echo "
+                  <span>
+                    <input type='checkbox' name='service-{$available_service->id}' id='service-{$available_service->id}'>
+                    <label for='service-{$available_service->id}'>{$available_service->name}</label>
+                  </span>
+                ";
+              }
+              ?>
+            </div>
           </div>
 
           <div class="margin-top-down">
             <label for="review-text">Текст отзыва</label>
-            <textarea name="review-text" id="review-text" cols="30" rows="10"></textarea>
+            <textarea name="review-text" id="review-text" cols="30" rows="10" required></textarea>
           </div>
 
           <div>
             <input type="submit" value="Отправить">
           </div>
+
+          <?php
+          if (isset($review_created_successfully)) {
+            echo "
+              <div class='color-of-success-message'>
+                {$review_created_successfully}
+              </div>
+            ";
+          } elseif (isset($review_hasnt_been_created)) {
+            echo "
+              <div class='color-of-failure-message'>
+                {$review_hasnt_been_created}
+              </div>
+            ";
+          }
+          ?>
         </fieldset>
       </form>
     </section>
 
-    <script src="https://code.jquery.com/jquery-1.11.3.min.js"></script>
-    <script src="/au/static/js/html-inclusion.js"></script>
     <script src="https://kit.fontawesome.com/d41b91cba2.js" crossorigin="anonymous"></script>
   </body>
 </html>

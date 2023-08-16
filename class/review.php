@@ -2,6 +2,8 @@
 
 include_once "../consts.php";
 include_once TOP_DIR . "/class/db_handler.php";
+include_once TOP_DIR . "/enum/review_status.php";
+include_once TOP_DIR . "/helper.php";
 
 /**
  * Класс для обработки запросов, связанных с сущностью review из БД или с 
@@ -10,6 +12,66 @@ include_once TOP_DIR . "/class/db_handler.php";
  */
 class Review extends DBHandler
 {
+    private $_standard_status_obj;
+
+    public function __construct() {
+        $this->_standard_status_obj = $this->getObject(
+            "review_status",
+            "name",
+            ReviewStatus::NotChecked->value
+        );
+    }
+
+    /**
+     * Получить объект review из БД по его ИД.
+     */
+    public function get(string $review_id): stdClass
+    {
+        $obj = $this->getObject("review", "id", $review_id);
+        return $obj;
+    }
+
+    /**
+     * Создать объект review на основе информации, переданной пользователем 
+     * через веб-интерфейс.
+     */
+    public function create(
+        string $user_id,
+        string $room_number,
+        string $living_start_date,
+        string $living_stop_date,
+        string $text
+    ): void {
+        $query = "INSERT INTO review (
+                      user_id,
+                      room_number,
+                      living_start_date,
+                      living_stop_date,
+                      date_of_writing,
+                      status_id,
+                      text
+                  ) VALUES (
+                      :user_id,
+                      :room_number,
+                      :living_start_date,
+                      :living_stop_date,
+                      :date_of_writing,
+                      :status_id,
+                      :text
+                  )";
+        $pdo_conn = $this->getPDOConn();
+        $stmt = $pdo_conn->prepare($query);
+        $stmt->execute([
+            "user_id" => $user_id,
+            "room_number" => $room_number,
+            "living_start_date" => $living_start_date,
+            "living_stop_date" => $living_stop_date,
+            "date_of_writing" => get_current_date(),
+            "status_id" => $this->_standard_status_obj->id, 
+            "text" => $text
+        ]);
+    }
+
     /**
      * Получить объект сущности user, где пользователь является автором
      * какого-либо отзыва.
@@ -53,14 +115,5 @@ class Review extends DBHandler
     {
         $reviews_list = $this->getObjects("review", "user_id", $user_id);
         return $reviews_list;
-    }
-
-    /**
-     * Получить объект review из БД по его ИД.
-     */
-    public function get(string $review_id): stdClass
-    {
-        $obj = $this->getObject("review", "id", $review_id);
-        return $obj;
     }
 }

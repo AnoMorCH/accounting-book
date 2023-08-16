@@ -46,9 +46,17 @@
 
           <?php
           if (isset($user_created_successfully)) {
-            echo "<div class='color-of-success-message'>{$user_created_successfully}</div>";
+            echo "
+              <div class='color-of-success-message'>
+                {$user_created_successfully}
+              </div>
+            ";
           } elseif (isset($user_hasnt_been_created)) {
-            echo "<div class='color-of-failure-message'>{$user_hasnt_been_created}</div>";
+            echo "
+              <div class='color-of-failure-message'>
+                {$user_hasnt_been_created}
+              </div>
+            ";
           }
           ?>
         </fieldset>

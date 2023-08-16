@@ -1,5 +1,6 @@
 <?php
 
+// TODO. Think about drying all the links below.
 const URLS = [
     // Страницы неавторизованного пользователя.
     "guest_homepage" => "/au/controller/common/login.php",
@@ -11,6 +12,7 @@ const URLS = [
     "this_review_page" => "/au/controller/customer/review/index.php",
     "my_reviews_page" => "/au/controller/customer/review/mine-list.php",
     "public_reviews_page" => "/au/controller/customer/review/public-list.php",
+    "create_review_page" => "/au/controller/customer/review/create.php",
 
     // Страницы администратора.
     "admin_homepage" => "",

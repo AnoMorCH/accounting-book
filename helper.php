@@ -17,3 +17,11 @@ function get_html(string $template_path, array $context = null): string
 
     return $html;
 }
+
+/**
+ * Вернуть текущую дату в формате "ДД-ММ-ГГГГ".
+ */
+function get_current_date(): string
+{
+    return date("Y-m-d");
+}
