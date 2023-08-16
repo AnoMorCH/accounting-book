@@ -1,0 +1,98 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Санаторий</title>
+    <link rel="stylesheet" href="/au/static/css/brightlight-green.css" />
+    <link rel="stylesheet" href="/au/static/css/main.css" />
+  </head>
+
+  <body>
+    <nav id="nav-customer">
+      <?php include TOP_DIR . "/navbar/customer.php" ?>
+    </nav>
+
+    <section container>
+      <h3>Изменить отзыв от <?=$review->date_of_writing?></h3>
+
+      <form method="post">
+        <fieldset>
+          <legend>Пожалуйста, введите данные</legend>
+
+          <div class="grid grid-two-columns-wrapper">
+            <label for="room-number">Номер комнаты</label>
+
+            <select name="room-number" id="room-number">
+              <?php
+              foreach ($rooms as $room) {
+                if ($room->number == $review->room_number) {
+                  echo "<option value='{$room->number}' selected>{$room->number}</option>";
+                } else {
+                  echo "<option value='{$room->number}'>{$room->number}</option>";
+                }
+              }
+              ?>
+            </select>
+
+            <label for="coming-date">Дата заселения</label>
+            <input type="date" name="coming-date" id="coming-date" value="<?=$review->living_start_date?>" required>
+
+            <label for="leaving-date">Дата выселения</label>
+            <input type="date" name="leaving-date" id="leaving-date" value="<?=$review->living_stop_date?>" required>
+
+            <span>Список оказанных услуг</span>
+            <div class="basic-div">
+              <?php
+              foreach ($available_services as $available_service) {
+                if (in_array($available_service->id, $selected_services_ids)) {
+                  echo "
+                    <span>
+                      <input type='checkbox' name='{$service_obj_prefix}{$available_service->id}' id='{$service_obj_prefix}{$available_service->id}' checked>
+                      <label for='{$service_obj_prefix}{$available_service->id}'>{$available_service->name}</label>
+                    </span>
+                  ";
+                } else {
+                  echo "
+                    <span>
+                      <input type='checkbox' name='{$service_obj_prefix}{$available_service->id}' id='{$service_obj_prefix}{$available_service->id}'>
+                      <label for='{$service_obj_prefix}{$available_service->id}'>{$available_service->name}</label>
+                    </span>
+                  ";
+                }
+              }
+              ?>
+            </div>
+          </div>
+
+          <div class="margin-top-down">
+            <label for="review-text">Текст отзыва</label>
+            <textarea name="review-text" id="review-text" cols="30" rows="10" required><?=$review->text?></textarea>
+          </div>
+
+          <div>
+            <input type="submit" value="Отправить">
+          </div>
+
+          <?php
+          if (isset($review_edited_successfully)) {
+            echo "
+              <div class='color-of-success-message'>
+                {$review_edited_successfully}
+              </div>
+            ";
+          } elseif (isset($review_hasnt_been_edited)) {
+            echo "
+              <div class='color-of-failure-message'>
+                {$review_hasnt_been_edited}
+              </div>
+            ";
+          }
+          ?>
+        </fieldset>
+      </form>
+    </section>
+
+    <script src="https://kit.fontawesome.com/d41b91cba2.js" crossorigin="anonymous"></script>
+  </body>
+</html>

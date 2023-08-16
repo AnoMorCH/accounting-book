@@ -57,6 +57,14 @@ class UserHandler extends DBHandler
     }
 
     /**
+     * Вернуть ИД текущего пользователя.
+     */
+    public function getCurrentId(): int
+    {
+        return $_COOKIE[COOKIE_NAME_OF_USER_ID];
+    }
+
+    /**
      * Авторизовать пользователя в систему через механизм COOKIE.
      */
     private function _loginUsingCookie(string $user_id): void
@@ -111,18 +119,10 @@ class UserHandler extends DBHandler
      */
     private function _getPositionId(): int
     {
-        $user_id = $this->_getCurrentId();
+        $user_id = $this->getCurrentId();
         $user_obj = $this->getObject("user", "position_id", $user_id);
         $user_position_id = $user_obj->position_id;
         return $user_position_id;
-    }
-
-    /**
-     * Вернуть ИД текущего пользователя.
-     */
-    private function _getCurrentId(): int
-    {
-        return $_COOKIE[COOKIE_NAME_OF_USER_ID];
     }
 
     /**

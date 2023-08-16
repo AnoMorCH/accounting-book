@@ -27,7 +27,7 @@
           </li>
 
           <li>
-            <a href="">Удалить все свои отзывы</a>
+            <a href='#'>Удалить все свои отзывы</a>
           </li>
         </ul>
       </div>
@@ -46,7 +46,7 @@
                 {$review->date_of_writing}
               </a>
 
-              <a href='' class='inline-elements'>
+              <a href='{$urls["edit_review_page"]}?id={$review->id}' class='inline-elements'>
                 <div>Изменить</div>
               </a>
 

@@ -34,7 +34,7 @@ class Review extends DBHandler
     }
 
     /**
-     * Добавить информацию о review и оказанных услуг на основании 
+     * Добавить информацию о review и оказанных услугах на основании 
      * информации, переданной пользователем через веб-интерфейс,
      */
     public function create(
@@ -56,6 +56,76 @@ class Review extends DBHandler
             "review"
         );
         $this->_createServices($just_created_review_id->id);
+    }
+
+    /**
+     * Изменить информацию о существующем review и оказанных услугах на 
+     * основании информации, переданной пользователем через веб-интерфейс.
+     */
+    public function edit(
+        string $review_id,
+        string $user_id,
+        string $room_number,
+        string $living_start_date,
+        string $living_stop_date,
+        string $text
+    ): void {
+        $this->_edit(
+            $review_id, 
+            $user_id, 
+            $room_number, 
+            $living_start_date, 
+            $living_stop_date, 
+            $text
+        );
+        $this->_editSelectedServices($review_id);
+    }
+
+    /**
+     * Изменить информацию о существующем review.
+     */
+    private function _edit(
+        string $review_id,
+        string $user_id,
+        string $room_number,
+        string $living_start_date,
+        string $living_stop_date,
+        string $text
+    ): void {
+        $query = "UPDATE review
+                  SET user_id = :user_id,
+                      room_number = :room_number,
+                      living_start_date = :living_start_date,
+                      living_stop_date = :living_stop_date,
+                      text = :text
+                  WHERE id = :id";
+        $pdo_conn = $this->getPDOConn();
+        $stmt = $pdo_conn->prepare($query);
+        $stmt->execute([
+            "user_id" => $user_id,
+            "room_number" => $room_number,
+            "living_start_date" => $living_start_date,
+            "living_stop_date" => $living_stop_date,
+            "text" => $text,
+            "id" => $review_id
+        ]);
+    }
+
+    /**
+     * Изменить выбранные услуги в отзыве.
+     */
+    private function _editSelectedServices(string $review_id): void
+    {
+        $this->_deleteReviewServices($review_id);
+        $this->_createServices($review_id);
+    }
+
+    /**
+     * Удалить все услуги, прикрепленные к определенному отзыву.
+     */
+    private function _deleteReviewServices(string $review_id): void
+    {
+        $this->deleteObjects("review_n_service", "review_id", $review_id);
     }
 
     /**
@@ -101,6 +171,21 @@ class Review extends DBHandler
     {
         $reviews_list = $this->getObjects("review", "user_id", $user_id);
         return $reviews_list;
+    }
+
+    /**
+     * Получить ИДы всех сервисов, которые пользователь выбрал при создании
+     * отзыва.
+     */
+    public function getSelectedServicesIds(string $review_id): array
+    {
+        $review_services = $this->getObjects("review_n_service", "review_id", $review_id);
+        $selected_services_ids = [];
+        foreach ($review_services as $review_service) {
+            $selected_service_id = $review_service->service_id;
+            array_push($selected_services_ids, $selected_service_id);
+        }
+        return $selected_services_ids;
     }
 
     /**

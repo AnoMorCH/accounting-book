@@ -105,4 +105,19 @@ class DBHandler
         $obj = $stmt->fetch();
         return $obj;
     }
+
+    /**
+     * Удалить объекты из БД.
+     */
+    public function deleteObjects(
+        string $table_name,
+        string $attr_name,
+        string $attr_value
+    ): void {
+        $query = "DELETE FROM {$table_name}
+                  WHERE {$attr_name} = :{$attr_name}";
+        $pdo_conn = $this->getPDOConn();
+        $stmt = $pdo_conn->prepare($query);
+        $stmt->execute(["{$attr_name}" => $attr_value]);
+    }
 }
