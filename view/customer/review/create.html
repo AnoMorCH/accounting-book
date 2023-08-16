@@ -45,8 +45,8 @@
               foreach ($available_services as $available_service) {
                 echo "
                   <span>
-                    <input type='checkbox' name='service-{$available_service->id}' id='service-{$available_service->id}'>
-                    <label for='service-{$available_service->id}'>{$available_service->name}</label>
+                    <input type='checkbox' name='{$service_obj_prefix}{$available_service->id}' id='{$service_obj_prefix}{$available_service->id}'>
+                    <label for='{$service_obj_prefix}{$available_service->id}'>{$available_service->name}</label>
                   </span>
                 ";
               }

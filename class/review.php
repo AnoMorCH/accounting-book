@@ -3,6 +3,7 @@
 include_once "../consts.php";
 include_once TOP_DIR . "/class/db_handler.php";
 include_once TOP_DIR . "/enum/review_status.php";
+include_once TOP_DIR . "/enum/limit_id.php";
 include_once TOP_DIR . "/helper.php";
 
 /**
@@ -14,7 +15,8 @@ class Review extends DBHandler
 {
     private $_standard_status_obj;
 
-    public function __construct() {
+    public function __construct()
+    {
         $this->_standard_status_obj = $this->getObject(
             "review_status",
             "name",
@@ -32,8 +34,8 @@ class Review extends DBHandler
     }
 
     /**
-     * Создать объект review на основе информации, переданной пользователем 
-     * через веб-интерфейс.
+     * Добавить информацию о review и оказанных услуг на основании 
+     * информации, переданной пользователем через веб-интерфейс,
      */
     public function create(
         string $user_id,
@@ -42,34 +44,18 @@ class Review extends DBHandler
         string $living_stop_date,
         string $text
     ): void {
-        $query = "INSERT INTO review (
-                      user_id,
-                      room_number,
-                      living_start_date,
-                      living_stop_date,
-                      date_of_writing,
-                      status_id,
-                      text
-                  ) VALUES (
-                      :user_id,
-                      :room_number,
-                      :living_start_date,
-                      :living_stop_date,
-                      :date_of_writing,
-                      :status_id,
-                      :text
-                  )";
-        $pdo_conn = $this->getPDOConn();
-        $stmt = $pdo_conn->prepare($query);
-        $stmt->execute([
-            "user_id" => $user_id,
-            "room_number" => $room_number,
-            "living_start_date" => $living_start_date,
-            "living_stop_date" => $living_stop_date,
-            "date_of_writing" => get_current_date(),
-            "status_id" => $this->_standard_status_obj->id, 
-            "text" => $text
-        ]);
+        $this->_create(
+            $user_id,
+            $room_number,
+            $living_start_date,
+            $living_stop_date,
+            $text
+        );
+        $just_created_review_id = $this->getObjectByLimitId(
+            LimitId::Max->value,
+            "review"
+        );
+        $this->_createServices($just_created_review_id->id);
     }
 
     /**
@@ -115,5 +101,81 @@ class Review extends DBHandler
     {
         $reviews_list = $this->getObjects("review", "user_id", $user_id);
         return $reviews_list;
+    }
+
+    /**
+     * На основании данных, введенных пользователем в веб-интерфейсе, 
+     * заполнить таблицу review_n_service.
+     */
+    private function _createServices(string $review_id)
+    {
+        for (
+            $service_id = $this->getObjectByLimitId(LimitId::Min->value, "service")->id;
+            $service_id <= $this->getObjectByLimitId(LimitId::Max->value, "service")->id;
+            $service_id++
+        ) {
+            try {
+                $service_obj_prefix = SERVICE_OBJ_PREFIX;
+                $service_tag_name = "{$service_obj_prefix}{$service_id}";
+                if (isset($_POST[$service_tag_name])) {
+                    $query = "INSERT INTO review_n_service (
+                                  review_id,
+                                  service_id
+                              ) VALUES (
+                                  :review_id,
+                                  :service_id
+                              )";
+                    $pdo_conn = $this->getPDOConn();
+                    $stmt = $pdo_conn->prepare($query);
+                    $stmt->execute([
+                        "review_id" => $review_id,
+                        "service_id" => $service_id
+                    ]);
+                }
+            } catch (Exception $exception) {
+                continue;
+            }
+        }
+    }
+
+    /**
+     * Создать объект review на основе информации, переданной пользователем 
+     * через веб-интерфейс.
+     */
+    private function _create(
+        string $user_id,
+        string $room_number,
+        string $living_start_date,
+        string $living_stop_date,
+        string $text
+    ): void {
+        $query = "INSERT INTO review (
+                      user_id,
+                      room_number,
+                      living_start_date,
+                      living_stop_date,
+                      date_of_writing,
+                      status_id,
+                      text
+                  ) VALUES (
+                      :user_id,
+                      :room_number,
+                      :living_start_date,
+                      :living_stop_date,
+                      :date_of_writing,
+                      :status_id,
+                      :text
+                  )";
+        $pdo_conn = $this->getPDOConn();
+        $stmt = $pdo_conn->prepare($query);
+        $stmt->execute([
+            "user_id" => $user_id,
+            "room_number" => $room_number,
+            "living_start_date" => $living_start_date,
+            "living_stop_date" => $living_stop_date,
+            "date_of_writing" => get_current_date(),
+            "status_id" => $this->_standard_status_obj->id,
+            "text" => $text
+        ]);
     }
 }

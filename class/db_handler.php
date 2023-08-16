@@ -1,5 +1,8 @@
 <?php
 
+include_once "../consts.php";
+include_once TOP_DIR . "/enum/limit_id.php";
+
 /**
  * Класс для работы с базой данных (используется PDO).
  */
@@ -75,5 +78,31 @@ class DBHandler
         }
         $objs = $stmt->fetchAll();
         return $objs;
+    }
+
+    /**
+     * Вернуть объект с максимальным ИД из БД.
+     */
+    public function getObjectByLimitId(
+        string $limit_type,
+        string $table_name
+    ): stdClass {
+        $query = "";
+        if ($limit_type == LimitId::Min->value) {
+            $query = "SELECT *
+                      FROM {$table_name} 
+                      ORDER BY id ASC 
+                      LIMIT 1";
+        } elseif ($limit_type == LimitId::Max->value) {
+            $query = "SELECT *
+                      FROM {$table_name} 
+                      ORDER BY id DESC 
+                      LIMIT 1";
+        }
+        $pdo_conn = $this->getPDOConn();
+        $stmt = $pdo_conn->prepare($query);
+        $stmt->execute();
+        $obj = $stmt->fetch();
+        return $obj;
     }
 }
