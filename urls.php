@@ -5,6 +5,7 @@ $subfolder = "au";
 $controller_folder = "controller";
 $unauthorized_user_folder = "common";
 $customer_folder = "customer";
+$admin_folder = "admin";
 $review_folder = "review";
 
 // URL-ссылки.
@@ -25,7 +26,8 @@ $urls = [
     "public_reviews_page" => "/$subfolder/$controller_folder/$customer_folder/$review_folder/public-list.php",
     
     // Страницы администратора.
-    "admin_homepage" => "",
+    "admin_homepage" => "/$subfolder/$controller_folder/$admin_folder/$review_folder/check-list.php",
+    "check_review_page" => "/$subfolder/$controller_folder/$admin_folder/$review_folder/check.php",
     
     // Общие страницы авторизованных пользователей.
     "logout_page" => "/$subfolder/$controller_folder/$unauthorized_user_folder/logout.php",

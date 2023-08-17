@@ -107,6 +107,24 @@ class Review extends DBHandler
     }
 
     /**
+     * Получить непроверенные отзывы.
+     */
+    public function getUnchecked(): array 
+    {
+        $unchecked_review_status = $this->getObject(
+            "review_status", 
+            "name", 
+            ReviewStatus::NotChecked->value
+        );
+        $unchecked_reviews = $this->getObjects(
+            "review", 
+            "status_id", 
+            $unchecked_review_status->id
+        );
+        return $unchecked_reviews;
+    }
+
+    /**
      * Получить объект сущности user, где пользователь является автором
      * какого-либо отзыва.
      */

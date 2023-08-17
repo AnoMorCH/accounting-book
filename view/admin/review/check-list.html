@@ -9,25 +9,36 @@
   </head>
 
   <body>
-    <nav id="nav-admin"></nav>
+    <nav id="nav-admin">
+      <?php include TOP_DIR . "/navbar/admin.php"; ?>
+    </nav>
 
     <section container>
       <h3>Отзывы на проверку</h3>
 
       <p>Здесь вы можете проверить отзывы.</p>
 
-      <!-- TODO. Take the code block below away using JavaScript. -->
       <ol>
-        <li>
-          <a href="">
-            <div>Username - XX.XX.XX</div>
-          </a>
-        </li>
+        <?php
+        foreach ($unchecked_reviews_list as $unchecked_review) {
+          $review_handler = new Review();
+          $review_author = $review_handler->getAuthor($unchecked_review->id);
+          echo "
+            <li>
+              <div>
+                <a href='{$urls["check_review_page"]}?id={$unchecked_review->id}'>
+                  {$review_author->first_name}
+                  {$review_author->last_name}
+                  -
+                  отзыв от
+                  {$unchecked_review->date_of_writing}
+                </a>
+              </div>
+            </li>
+          ";
+        }
+        ?>
       </ol>
     </section>
-
-    <script src="https://code.jquery.com/jquery-1.11.3.min.js"></script>
-    <script src="/au/static/js/html-inclusion.js"></script>
-    <script src="https://kit.fontawesome.com/d41b91cba2.js" crossorigin="anonymous"></script>
   </body>
 </html>
