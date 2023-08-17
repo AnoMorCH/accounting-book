@@ -15,7 +15,7 @@ function public_list(): string
     $access = new Access(UserPosition::Customer->value);
     $access->redirectUserToHisHomepageIfNeeded();
     $context = new Context();
-    $context->append("reviews_list", (new Review())->getAll());
+    $context->append("reviews_list", (new Review())->getAllPublished());
     $template_path = TOP_DIR . "/view/customer/review/public-list.html";
     return get_html($template_path, $context->value);
 }

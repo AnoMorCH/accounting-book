@@ -36,9 +36,10 @@ class Review extends DBHandler
     /**
      * Получить все экземпляры сущности review из БД.
      */
-    public function getAll(): array 
+    public function getAllPublished(): array 
     {
-        $objs = $this->getObjects("review");
+        $review_published_status = $this->getObject("review_status", "name", ReviewStatus::Published->value);
+        $objs = $this->getObjects("review", "status_id", $review_published_status->id);
         return $objs;
     }
 
