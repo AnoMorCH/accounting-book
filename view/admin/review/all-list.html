@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Санаторий</title>
+    <link rel="stylesheet" href="/au/static/css/brightlight-green.css" />
+    <link rel="stylesheet" href="/au/static/css/main.css" />
+  </head>
+
+  <body>
+    <nav id="nav-customer">
+      <?php include TOP_DIR . "/navbar/admin.php"; ?>
+    </nav>
+
+    <section container>
+      <h3>Опубликованные отзывы</h3>
+
+      <p>
+        Отзывы, оставленные за всё время существования санатория (в том числе 
+        и неодобренные администрацией).
+      </p>
+
+      <div>
+        <p>
+          <b>Список опубликованных отзывов</b>
+        </p>
+
+        <ol>
+          <?php
+          foreach ($reviews_list as $review) {
+            $review_handler = new Review();
+            $review_author = $review_handler->getAuthor($review->id);
+            echo "
+              <li>
+                <div>
+                  <a href='{$urls["this_review_page"]}?id={$review->id}'>
+                    {$review_author->first_name}
+                    {$review_author->last_name}
+                    -
+                    отзыв от 
+                    {$review->date_of_writing} 
+                  </a>
+                </div>
+              </li> 
+            ";
+          }
+          ?>
+        </ol>
+      </div>
+    </section>
+  </body>
+</html>

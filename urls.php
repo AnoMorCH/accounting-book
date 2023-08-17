@@ -28,6 +28,7 @@ $urls = [
     // Страницы администратора.
     "admin_homepage" => "/$subfolder/$controller_folder/$admin_folder/$review_folder/check-list.php",
     "check_review_page" => "/$subfolder/$controller_folder/$admin_folder/$review_folder/check.php",
+    "all_reviews_page" => "/$subfolder/$controller_folder/$admin_folder/$review_folder/all-list.php",
     
     // Общие страницы авторизованных пользователей.
     "logout_page" => "/$subfolder/$controller_folder/$unauthorized_user_folder/logout.php",
