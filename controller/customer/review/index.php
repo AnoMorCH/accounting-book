@@ -1,8 +1,7 @@
 <?php
-include "../../../consts.php";
+include_once "../../../consts.php";
 include_once TOP_DIR . "/class/access.php";
 include_once TOP_DIR . "/class/context.php";
-include_once TOP_DIR . "/class/db_handler.php";
 include_once TOP_DIR . "/class/review.php";
 include_once TOP_DIR . "/enum/user_position.php";
 include_once TOP_DIR . "/helper.php";
