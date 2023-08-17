@@ -36,7 +36,7 @@
                 <?php
                 foreach ($review_statuses_list as $review_status) {
                   echo "
-                    <div class='inline-elements'>
+                    <div class='inline-elements basic-div'>
                       <input type='radio' name='review-status' id='{$review_status_prefix}{$review_status->id}' value='{$review_status_prefix}{$review_status->id}' required>
                       <label for='{$review_status_prefix}{$review_status->id}'>{$review_status->name}</label>
                     </div>
