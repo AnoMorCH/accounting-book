@@ -17,7 +17,7 @@ $urls = [
     
     // Страницы клиента.
     "customer_homepage" => "/$subfolder/$controller_folder/$customer_folder/$review_folder/mine-list.php",
-    "this_review_page" => "/$subfolder/$controller_folder/$customer_folder/$review_folder/index.php",
+    "customer_this_review_page" => "/$subfolder/$controller_folder/$customer_folder/$review_folder/index.php",
     "my_reviews_page" => "/$subfolder/$controller_folder/$customer_folder/$review_folder/mine-list.php",
     "public_reviews_page" => "/$subfolder/$controller_folder/$customer_folder/$review_folder/public-list.php",
     "create_review_page" => "/$subfolder/$controller_folder/$customer_folder/$review_folder/create.php",
@@ -27,6 +27,7 @@ $urls = [
     
     // Страницы администратора.
     "admin_homepage" => "/$subfolder/$controller_folder/$admin_folder/$review_folder/check-list.php",
+    "admin_this_review_page" => "/$subfolder/$controller_folder/$admin_folder/$review_folder/index.php",
     "check_review_page" => "/$subfolder/$controller_folder/$admin_folder/$review_folder/check.php",
     "all_reviews_page" => "/$subfolder/$controller_folder/$admin_folder/$review_folder/all-list.php",
     

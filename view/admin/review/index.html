@@ -1,0 +1,85 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Санаторий</title>
+    <link rel="stylesheet" href="/au/static/css/brightlight-green.css" />
+    <link rel="stylesheet" href="/au/static/css/main.css" />
+  </head>
+
+  <body>
+    <nav id="nav-customer">
+      <?php include TOP_DIR . "/navbar/admin.php"; ?>
+    </nav>
+
+    <section container>
+      <h3>
+        Отзыв от 
+        <?=$review->date_of_writing?>
+      </h3>
+
+      <div id="review-data-table" overflow>
+        <table class="max-width">
+          <thead>
+            <tr>
+              <th>Данные</th>
+              <th>Значение</th>
+            </tr>
+          </thead>
+
+          <tbody>
+            <tr>
+              <td>Имя клиента</td>
+              <td>
+                <?=$review_author->first_name?>
+                <?=$review_author->last_name?>
+              </td>
+            </tr>
+
+            <tr>
+              <td>Номер комнаты</td>
+              <td><?=$review->room_number?></td>
+            </tr>
+
+            <tr>
+              <td>Дата заезда</td>
+              <td><?=$review->living_start_date?></td>
+            </tr>
+
+            <tr>
+              <td>Дата выезда</td>
+              <td><?=$review->living_stop_date?></td>
+            </tr>
+
+            <tr>
+              <td>Дата написания отзыва</td>
+              <td><?=$review->date_of_writing?></td>
+            </tr>
+
+            <tr>
+              <td>Статус отзыва</td>
+              <td><?=$review_status->name?></td>
+            </tr>
+
+            <tr>
+              <td>Список оказанных услуг</td>
+              <td>
+                <?php
+                foreach ($review_services as $review_service) {
+                  echo "<div>{$review_service}</div>";
+                }
+                ?>
+              </td>
+            </tr>
+
+            <tr>
+              <td>Текст отзыва</td>
+              <td><?=$review->text?></td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </section>
+  </body>
+</html>
