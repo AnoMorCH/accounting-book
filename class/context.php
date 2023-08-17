@@ -32,7 +32,8 @@ class Context
         $basic_value = [
             "urls" => URLS,
             "top_dir" => TOP_DIR,
-            "service_obj_prefix" => SERVICE_OBJ_PREFIX
+            "service_obj_prefix" => SERVICE_OBJ_PREFIX,
+            "review_status_prefix" => REVIEW_STATUS_PREFIX,
         ];
         return $basic_value;
     }

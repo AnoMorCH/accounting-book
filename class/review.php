@@ -107,6 +107,37 @@ class Review extends DBHandler
     }
 
     /**
+     * Изменяет существующий отзыв на основании проверки, выполненной
+     * администратором через веб-интерфейс.
+     */
+    public function check(string $dirty_review_status, string $review_id): void
+    {
+        $query = "UPDATE review
+                  SET status_id = :status_id
+                  WHERe id = :id";
+        $pdo_conn = $this->getPDOConn();
+        $stmt =$pdo_conn->prepare($query);
+        $stmt->execute([
+            "status_id" => $this->_getCleanReviewStatus($dirty_review_status),
+            "id" => $review_id
+        ]);
+    }
+
+    /**
+     * Почистить статус отзыва, переданный через веб-интерфейс, от лишней
+     * информации.
+     */
+    private function _getCleanReviewStatus(string $dirty_review_status): string
+    {
+        $clean_review_status = str_replace(
+            REVIEW_STATUS_PREFIX,
+            "",
+            $dirty_review_status
+        );
+        return $clean_review_status;
+    }
+
+    /**
      * Получить непроверенные отзывы.
      */
     public function getUnchecked(): array 
@@ -182,6 +213,16 @@ class Review extends DBHandler
             array_push($selected_services_ids, $selected_service_id);
         }
         return $selected_services_ids;
+    }
+
+    /**
+     * Получить все доступные для использования статусы отзыва как список
+     * объектов stdClass.
+     */
+    public function getAvailableStatuses(): array
+    {
+        $available_statuses = $this->getObjects("review_status");
+        return $available_statuses;
     }
 
     /**

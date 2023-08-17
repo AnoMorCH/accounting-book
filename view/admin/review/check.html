@@ -9,12 +9,15 @@
   </head>
 
   <body>
-    <nav id="nav-admin"></nav>
+    <nav id="nav-admin">
+      <?php include TOP_DIR . "/navbar/admin.php"; ?>
+    </nav>
 
     <section container>
-      <h3>Отзыв от ХХ.ХХ.ХХХХ</h3>
-
-      <div id="review-data-table" overflow></div>
+      <h3>
+        Проверка отзыва от 
+        <?=$review->date_of_writing?>
+      </h3>
 
       <div class="margin-top-down">
         <form method="post">
@@ -22,17 +25,30 @@
             <legend>Панель проверки</legend>
 
             <div>
+              <p><b>Текст отзыва</b></p>
+              <div><?=$review->text?></div>
+            </div>
+
+            <div>
               <p><b>Статус отзыва</b></p>
   
-              <div>
-                <input type="radio" name="status" id="status">
-                <label for="status">Статус</label>
+              <div class="basic-div">
+                <?php
+                foreach ($review_statuses_list as $review_status) {
+                  echo "
+                    <div class='inline-elements'>
+                      <input type='radio' name='review-status' id='{$review_status_prefix}{$review_status->id}' value='{$review_status_prefix}{$review_status->id}' required>
+                      <label for='{$review_status_prefix}{$review_status->id}'>{$review_status->name}</label>
+                    </div>
+                  ";
+                }
+                ?>
               </div>
             </div>
 
             <div class="margin-top-down">
               <label for="comment"><b>Комментарий администратора</b></label>
-              <textarea name="comment" id="comment" cols="30" rows="10"></textarea>
+              <textarea name="comment" id="comment" cols="30" rows="10" required></textarea>
               <p>Важно! Комментарий отправляется пользователю на эл. почту.</p>
             </div>
 
@@ -43,9 +59,5 @@
         </form>
       </div>
     </section>
-
-    <script src="https://code.jquery.com/jquery-1.11.3.min.js"></script>
-    <script src="/au/static/js/html-inclusion.js"></script>
-    <script src="https://kit.fontawesome.com/d41b91cba2.js" crossorigin="anonymous"></script>
   </body>
 </html>
