@@ -140,19 +140,13 @@ class Review extends DBHandler
     /**
      * Получить непроверенные отзывы.
      */
-    public function getUnchecked(): array 
+    public function getUncheckedAndSuspended(): array 
     {
-        $unchecked_review_status = $this->getObject(
-            "review_status", 
-            "name", 
-            ReviewStatus::NotChecked->value
-        );
-        $unchecked_reviews = $this->getObjects(
-            "review", 
-            "status_id", 
-            $unchecked_review_status->id
-        );
-        return $unchecked_reviews;
+        $unchecked_review_status = $this->getObject("review_status", "name", ReviewStatus::NotChecked->value);
+        $unchecked_reviews = $this->getObjects("review", "status_id", $unchecked_review_status->id);
+        $suspended_review_status = $this->getObject("review_status", "name", ReviewStatus::Suspended->value);
+        $suspended_reviews = $this->getObjects("review", "status_id", $suspended_review_status->id);
+        return array_merge($unchecked_reviews, $suspended_reviews);
     }
 
     /**

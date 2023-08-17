@@ -15,7 +15,7 @@ function check_list(): string
     $access = new Access(UserPosition::Admin->value);
     $access->redirectUserToHisHomepageIfNeeded();
     $context = new Context();
-    $context->append("unchecked_reviews_list", (new Review)->getUnchecked());
+    $context->append("unchecked_reviews_list", (new Review)->getUncheckedAndSuspended());
     $template_path = TOP_DIR . "/view/admin/review/check-list.html";
     return get_html($template_path, $context->value);
 }
