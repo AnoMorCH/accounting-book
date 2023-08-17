@@ -12,8 +12,7 @@ include_once TOP_DIR . "/helper.php";
  */
 function all_list(): string
 {
-    $access = new Access(UserPosition::Admin->value);
-    $access->redirectUserToHisHomepageIfNeeded();
+    (new Access(UserPosition::Admin->value))->redirectUserToHisHomepageIfNeeded();
     $context = new Context();
     $context->append("reviews_list", (new Review())->getAll());
     $template_path = TOP_DIR . "/view/admin/review/all-list.html";

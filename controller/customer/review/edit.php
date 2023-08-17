@@ -14,8 +14,7 @@ include_once TOP_DIR . "/helper.php";
  */
 function edit(): string
 {
-    $access = new Access(UserPosition::Customer->value);
-    $access->redirectUserToHisHomepageIfNeeded();
+    (new Access(UserPosition::Customer->value))->redirectUserToHisHomepageIfNeeded();
 
     $review_id = $_GET["id"];
     $context = new Context();

@@ -11,8 +11,7 @@ include_once TOP_DIR . "/helper.php";
  */
 function index(): string 
 {
-    $access = new Access(UserPosition::Customer->value);
-    $access->redirectUserToHisHomepageIfNeeded();
+    (new Access(UserPosition::Customer->value))->redirectUserToHisHomepageIfNeeded();
     $context = new Context();
     
     if ($_SERVER["REQUEST_METHOD"] == "GET") {

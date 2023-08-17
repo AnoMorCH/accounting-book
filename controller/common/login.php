@@ -11,8 +11,7 @@ include_once TOP_DIR . "/helper.php";
  */
 function login(): string
 {
-    $access = new Access(UserPosition::Guest->value);
-    $access->redirectUserToHisHomepageIfNeeded();
+    (new Access(UserPosition::Guest->value))->redirectUserToHisHomepageIfNeeded();
     $context = new Context();
     
     if ($_SERVER["REQUEST_METHOD"] == "POST") {

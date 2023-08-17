@@ -12,8 +12,7 @@ include_once TOP_DIR . "/helper.php";
  */
 function check_list(): string 
 {
-    $access = new Access(UserPosition::Admin->value);
-    $access->redirectUserToHisHomepageIfNeeded();
+    (new Access(UserPosition::Admin->value))->redirectUserToHisHomepageIfNeeded();
     $context = new Context();
     $context->append("unchecked_reviews_list", (new Review)->getUncheckedAndSuspended());
     $template_path = TOP_DIR . "/view/admin/review/check-list.html";

@@ -14,17 +14,14 @@ include_once TOP_DIR . "/helper.php";
  */
 function delete(): void 
 {
-    $access = new Access(UserPosition::Customer->value);
-    $access->redirectUserToHisHomepageIfNeeded();
+    (new Access(UserPosition::Customer->value))->redirectUserToHisHomepageIfNeeded();
     $review = new Review();
-
     $review_id = $_GET["id"];
     if (is_null($review_id)) {
         $review->delete(user_id: (new UserHandler())->getCurrentId());
     } else {
         $review->delete(review_id: $review_id);
     }
-
     redirect(URLS["customer_homepage"]);
 }
 

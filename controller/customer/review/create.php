@@ -14,8 +14,7 @@ include_once TOP_DIR . "/helper.php";
  */
 function create(): string
 {
-    $access = new Access(UserPosition::Customer->value);
-    $access->redirectUserToHisHomepageIfNeeded();
+    (new Access(UserPosition::Customer->value))->redirectUserToHisHomepageIfNeeded();
     $context = new Context();
     $db_handler = new DBHandler();
     $context->append("rooms", $db_handler->getObjects("room"));

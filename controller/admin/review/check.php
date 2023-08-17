@@ -12,14 +12,12 @@ include_once TOP_DIR . "/helper.php";
  */
 function check(): string
 {
-    $access = new Access(UserPosition::Admin->value);
-    $access->redirectUserToHisHomepageIfNeeded();
-    $context = new Context();
-
+    (new Access(UserPosition::Admin->value))->redirectUserToHisHomepageIfNeeded();
     $review_id = $_GET["id"];
     $review = new Review();
     $review_obj = $review->get($review_id);
     $review_author = $review->getAuthor($review_id);
+    $context = new Context();
     $context->append("review", $review_obj);
     $context->append("review_author", $review_author);
     $context->append("review_statuses_list", $review->getAvailableStatuses());

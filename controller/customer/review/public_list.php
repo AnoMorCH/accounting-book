@@ -12,8 +12,7 @@ include_once TOP_DIR . "/helper.php";
  */
 function public_list(): string
 {
-    $access = new Access(UserPosition::Customer->value);
-    $access->redirectUserToHisHomepageIfNeeded();
+    (new Access(UserPosition::Customer->value))->redirectUserToHisHomepageIfNeeded();
     $context = new Context();
     $context->append("reviews_list", (new Review())->getAllPublished());
     $template_path = TOP_DIR . "/view/customer/review/public-list.html";
