@@ -27,7 +27,7 @@
           </li>
 
           <li>
-            <a href='#'>Удалить все свои отзывы</a>
+            <a href='<?=$urls["delete_review_page"]?>'>Удалить все свои отзывы</a>
           </li>
         </ul>
       </div>
@@ -50,7 +50,7 @@
                 <div>Изменить</div>
               </a>
 
-              <a href='' class='inline-elements'>
+              <a href='{$urls["delete_review_page"]}?id={$review->id}' class='inline-elements'>
                 <div>Удалить</div>
               </a>
             </div>

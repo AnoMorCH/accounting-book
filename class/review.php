@@ -71,61 +71,30 @@ class Review extends DBHandler
         string $text
     ): void {
         $this->_edit(
-            $review_id, 
-            $user_id, 
-            $room_number, 
-            $living_start_date, 
-            $living_stop_date, 
+            $review_id,
+            $user_id,
+            $room_number,
+            $living_start_date,
+            $living_stop_date,
             $text
         );
         $this->_editSelectedServices($review_id);
     }
 
     /**
-     * Изменить информацию о существующем review.
+     * Удалить отзыв(ы). Если передан атрибут review_id, то удалить отзыв с 
+     * указанным ИДом. Иначе если передан только ИД пользователя, то удалить
+     * все отзывы, которые ему(ей) принадлежат.
      */
-    private function _edit(
-        string $review_id,
-        string $user_id,
-        string $room_number,
-        string $living_start_date,
-        string $living_stop_date,
-        string $text
+    public function delete(
+        string $review_id = null,
+        string $user_id = null
     ): void {
-        $query = "UPDATE review
-                  SET user_id = :user_id,
-                      room_number = :room_number,
-                      living_start_date = :living_start_date,
-                      living_stop_date = :living_stop_date,
-                      text = :text
-                  WHERE id = :id";
-        $pdo_conn = $this->getPDOConn();
-        $stmt = $pdo_conn->prepare($query);
-        $stmt->execute([
-            "user_id" => $user_id,
-            "room_number" => $room_number,
-            "living_start_date" => $living_start_date,
-            "living_stop_date" => $living_stop_date,
-            "text" => $text,
-            "id" => $review_id
-        ]);
-    }
-
-    /**
-     * Изменить выбранные услуги в отзыве.
-     */
-    private function _editSelectedServices(string $review_id): void
-    {
-        $this->_deleteReviewServices($review_id);
-        $this->_createServices($review_id);
-    }
-
-    /**
-     * Удалить все услуги, прикрепленные к определенному отзыву.
-     */
-    private function _deleteReviewServices(string $review_id): void
-    {
-        $this->deleteObjects("review_n_service", "review_id", $review_id);
+        if (!is_null($review_id)) {
+            $this->deleteObjects("review", "id", $review_id);
+        } elseif (!is_null($user_id)) {
+            $this->deleteObjects("review", "user_id", $user_id);
+        }
     }
 
     /**
@@ -186,6 +155,53 @@ class Review extends DBHandler
             array_push($selected_services_ids, $selected_service_id);
         }
         return $selected_services_ids;
+    }
+
+    /**
+     * Изменить информацию о существующем review.
+     */
+    private function _edit(
+        string $review_id,
+        string $user_id,
+        string $room_number,
+        string $living_start_date,
+        string $living_stop_date,
+        string $text
+    ): void {
+        $query = "UPDATE review
+                  SET user_id = :user_id,
+                      room_number = :room_number,
+                      living_start_date = :living_start_date,
+                      living_stop_date = :living_stop_date,
+                      text = :text
+                  WHERE id = :id";
+        $pdo_conn = $this->getPDOConn();
+        $stmt = $pdo_conn->prepare($query);
+        $stmt->execute([
+            "user_id" => $user_id,
+            "room_number" => $room_number,
+            "living_start_date" => $living_start_date,
+            "living_stop_date" => $living_stop_date,
+            "text" => $text,
+            "id" => $review_id
+        ]);
+    }
+
+    /**
+     * Изменить выбранные услуги в отзыве.
+     */
+    private function _editSelectedServices(string $review_id): void
+    {
+        $this->_deleteReviewServices($review_id);
+        $this->_createServices($review_id);
+    }
+
+    /**
+     * Удалить все услуги, прикрепленные к определенному отзыву.
+     */
+    private function _deleteReviewServices(string $review_id): void
+    {
+        $this->deleteObjects("review_n_service", "review_id", $review_id);
     }
 
     /**

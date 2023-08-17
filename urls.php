@@ -20,6 +20,7 @@ $urls = [
     "public_reviews_page" => "/$subfolder/$controller_folder/$customer_folder/$review_folder/public-list.php",
     "create_review_page" => "/$subfolder/$controller_folder/$customer_folder/$review_folder/create.php",
     "edit_review_page" => "/$subfolder/$controller_folder/$customer_folder/$review_folder/edit.php",
+    "delete_review_page" => "/$subfolder/$controller_folder/$customer_folder/$review_folder/delete.php",
     
     // Страницы администратора.
     "admin_homepage" => "",
