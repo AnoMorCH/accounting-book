@@ -143,7 +143,7 @@ class UserHandler extends DBHandler
     private function _getPositionId(): int
     {
         $user_id = $this->getCurrentId();
-        $user_obj = $this->getObject("user", "position_id", $user_id);
+        $user_obj = $this->getObject("user", "id", $user_id);
         $user_position_id = $user_obj->position_id;
         return $user_position_id;
     }
