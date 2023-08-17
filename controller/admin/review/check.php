@@ -18,12 +18,15 @@ function check(): string
 
     $review_id = $_GET["id"];
     $review = new Review();
-    $context->append("review", $review->get($review_id));
-    $context->append("review_author", $review->getAuthor($review_id));
+    $review_obj = $review->get($review_id);
+    $review_author = $review->getAuthor($review_id);
+    $context->append("review", $review_obj);
+    $context->append("review_author", $review_author);
     $context->append("review_statuses_list", $review->getAvailableStatuses());
 
     if ($_SERVER["REQUEST_METHOD"] == "POST") {
         $review->check($_POST["review-status"], $review_id);
+        send_email($review_author->email, $review_obj->date_of_writing, $_POST["comment"]);
         redirect(URLS["admin_homepage"]);
     }
 

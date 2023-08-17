@@ -1,4 +1,11 @@
 <?php
+include_once "./consts.php";
+
+// Подключение PHP Mailer, установленного через composer.
+use PHPMailer\PHPMailer\PHPMailer;
+use PHPMailer\PHPMailer\Exception;
+
+require TOP_DIR . "/vendor/autoload.php";
 
 /**
  * Передать HTML-шаблон в качестве строки для реализации взаимосвязи HTML-PHP.
@@ -33,4 +40,36 @@ function redirect(string $url): void
 {
     header("Location: {$url}");
     exit;
+}
+
+/**
+ * Отправить эл. письмо на почту через PHPMailer (переменная $subject 
+ * содержит свой заголовок на английском языке, потому что PHPMailer не
+ * поддерживает отправку заголовков с кириллицей).
+ */
+function send_email(
+    string $address,
+    string $review_date_of_writing,
+    string $body
+): void {
+    $subject = "You got a notification about your review created
+                $review_date_of_writing";
+    
+    $mail = new PHPMailer(true);
+
+    $mail->isSMTP();
+    $mail->Host = "smtp.gmail.com";
+    $mail->SMTPAuth = true;
+    $mail->Username = "tokisakar@gmail.com";
+    $mail->Password = "dzotmexcvmbkmieu";
+    $mail->SMTPSecure = "ssl";
+    $mail->Port = 465;
+
+    $mail->setFrom("tokisakar@gmail.com");
+    $mail->addAddress($address);
+    $mail->isHTML(true);
+    $mail->Subject = $subject;
+    $mail->Body = $body;
+
+    $mail->send();
 }
