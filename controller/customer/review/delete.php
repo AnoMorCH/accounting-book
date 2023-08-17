@@ -6,6 +6,7 @@ include_once TOP_DIR . "/class/review.php";
 include_once TOP_DIR . "/class/user_handler.php";
 include_once TOP_DIR . "/enum/user_position.php";
 include_once TOP_DIR . "/urls.php";
+include_once TOP_DIR . "/helper.php";
 
 /**
  * Обработать контроллер по удалению одного или нескольких отзывов (шаблоны
@@ -24,9 +25,7 @@ function delete(): void
         $review->delete(review_id: $review_id);
     }
 
-    $customer_homepage_url = URLS["customer_homepage"];
-    header("Location: {$customer_homepage_url}");
-    exit;
+    redirect(URLS["customer_homepage"]);
 }
 
 delete();

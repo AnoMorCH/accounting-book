@@ -3,6 +3,7 @@ include_once "../consts.php";
 include_once TOP_DIR . "/urls.php";
 include_once TOP_DIR . "/enum/user_position.php";
 include_once TOP_DIR . "/class/user_handler.php";
+include_once TOP_DIR . "/helper.php";
 
 /**
  * Класс для контроля доступа пользователя к тем или иным участкам проекта.
@@ -16,8 +17,8 @@ class Access extends UserHandler
     public function __construct(string $authorized_user_position)
     {
         $this->_authorized_user_position = $authorized_user_position;
-        $this->_actual_user_position = $this->_getPosition();
-        $this->_users_homepage_by_position = $this->_getBasicUsersHomepage();
+        $this->_actual_user_position = $this->getPosition();
+        $this->_users_homepage_by_position = $this->_getBasicHomepage();
     }
 
     /**
@@ -37,21 +38,7 @@ class Access extends UserHandler
     private function _redirectUserToHisHomepage(): void
     {
         $users_homepage_addr = $this->_getUsersHomepageRelativeAddr();
-        header("Location: {$users_homepage_addr}");
-        exit;
-    }
-
-    /**
-     * Получить словарь типа "роль пользователя" => "ссылка на домашнюю стр.".
-     */
-    private function _getBasicUsersHomepage(): array
-    {
-        $basic_users_homepage = [
-            UserPosition::Guest->value => URLS["guest_homepage"],
-            UserPosition::Customer->value => URLS["customer_homepage"],
-            UserPosition::Admin->value => URLS["admin_homepage"],
-        ];
-        return $basic_users_homepage;
+        redirect($users_homepage_addr);
     }
 
     /**

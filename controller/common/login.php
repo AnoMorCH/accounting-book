@@ -17,8 +17,11 @@ function login(): string
     
     if ($_SERVER["REQUEST_METHOD"] == "POST") {
         try {
-            (new UserHandler())->login($_POST["email"], $_POST["password"]);
-            $access->redirectUserToHisHomepageIfNeeded();
+            $user_handler = new UserHandler();
+            $user_handler->login($_POST["email"], $_POST["password"]);
+            $user_position = $user_handler->getPosition();
+            $user_homepage_url = $user_handler->getHomepageUrl($user_position);
+            redirect($user_homepage_url);
         } catch (Exception $exception) {
             $context->append("login_failed", $exception->getMessage());
         }

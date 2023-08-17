@@ -65,6 +65,29 @@ class UserHandler extends DBHandler
     }
 
     /**
+     * Вернуть url домашней страницы пользователя.
+     */
+    public function getHomepageUrl(string $user_position): string 
+    {
+        $basic_homepages_urls = $this->_getBasicHomepage();
+        $homepage_url = $basic_homepages_urls[$user_position];
+        return $homepage_url;
+    }
+
+    /**
+     * Получить словарь типа "роль пользователя" => "ссылка на домашнюю стр.".
+     */
+    protected function _getBasicHomepage(): array
+    {
+        $basic_users_homepage = [
+            UserPosition::Guest->value => URLS["guest_homepage"],
+            UserPosition::Customer->value => URLS["customer_homepage"],
+            UserPosition::Admin->value => URLS["admin_homepage"],
+        ];
+        return $basic_users_homepage;
+    }
+
+    /**
      * Авторизовать пользователя в систему через механизм COOKIE.
      */
     private function _loginUsingCookie(string $user_id): void
@@ -89,7 +112,7 @@ class UserHandler extends DBHandler
     /**
      * Вернуть текущую позицию пользователя.
      */
-    protected function _getPosition(): string
+    public function getPosition(): string
     {
         if ($this->_isAuthenticated()) {
             $position_id = $this->_getPositionId();
