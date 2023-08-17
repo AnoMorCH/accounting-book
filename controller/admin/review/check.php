@@ -27,7 +27,7 @@ function check(): string
     if ($_SERVER["REQUEST_METHOD"] == "POST") {
         $review->check($_POST["review-status"], $review_id);
         send_email($review_author->email, $review_obj->date_of_writing, $_POST["comment"]);
-        redirect(URLS["admin_homepage"]);
+        redirect(URLS["check_list_page"]);
     }
 
     $template_path = TOP_DIR . "/view/admin/review/check.html";
