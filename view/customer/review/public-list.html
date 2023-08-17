@@ -9,7 +9,9 @@
   </head>
 
   <body>
-    <nav id="nav-customer"></nav>
+    <nav id="nav-customer">
+      <?php include TOP_DIR . "/navbar/customer.php"; ?>
+    </nav>
 
     <section container>
       <h3>Опубликованные отзывы</h3>
@@ -22,17 +24,27 @@
         </p>
 
         <ol>
-          <li>
-            <a href="">
-              <div>Username - отзыв от ХХ.ХХ.ХХ</div>
-            </a>
-          </li>
+          <?php
+          foreach ($reviews_list as $review) {
+            $review_handler = new Review();
+            $review_author = $review_handler->getAuthor($review->id);
+            echo "
+              <li>
+                <div>
+                  <a href='{$urls["this_review_page"]}?id={$review->id}'>
+                    {$review_author->first_name}
+                    {$review_author->last_name}
+                    -
+                    отзыв от 
+                    {$review->date_of_writing} 
+                  </a>
+                </div>
+              </li> 
+            ";
+          }
+          ?>
         </ol>
       </div>
     </section>
-
-    <script src="https://code.jquery.com/jquery-1.11.3.min.js"></script>
-    <script src="/au/static/js/html-inclusion.js"></script>
-    <script src="https://kit.fontawesome.com/d41b91cba2.js" crossorigin="anonymous"></script>
   </body>
 </html>

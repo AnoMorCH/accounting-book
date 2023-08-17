@@ -7,6 +7,7 @@ $unauthorized_user_folder = "common";
 $customer_folder = "customer";
 $review_folder = "review";
 
+// URL-ссылки.
 $urls = [
     // Страницы неавторизованного пользователя.
     "guest_homepage" => "/$subfolder/$controller_folder/$unauthorized_user_folder/login.php",
@@ -21,6 +22,7 @@ $urls = [
     "create_review_page" => "/$subfolder/$controller_folder/$customer_folder/$review_folder/create.php",
     "edit_review_page" => "/$subfolder/$controller_folder/$customer_folder/$review_folder/edit.php",
     "delete_review_page" => "/$subfolder/$controller_folder/$customer_folder/$review_folder/delete.php",
+    "public_reviews_page" => "/$subfolder/$controller_folder/$customer_folder/$review_folder/public-list.php",
     
     // Страницы администратора.
     "admin_homepage" => "",

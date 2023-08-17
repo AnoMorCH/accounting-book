@@ -34,6 +34,15 @@ class Review extends DBHandler
     }
 
     /**
+     * Получить все экземпляры сущности review из БД.
+     */
+    public function getAll(): array 
+    {
+        $objs = $this->getObjects("review");
+        return $objs;
+    }
+
+    /**
      * Добавить информацию о review и оказанных услугах на основании 
      * информации, переданной пользователем через веб-интерфейс,
      */
