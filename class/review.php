@@ -125,7 +125,7 @@ class Review extends DBHandler
     {
         $query = "UPDATE review
                   SET status_id = :status_id
-                  WHERe id = :id";
+                  WHERE id = :id";
         $pdo_conn = $this->getPDOConn();
         $stmt =$pdo_conn->prepare($query);
         $stmt->execute([
@@ -140,11 +140,7 @@ class Review extends DBHandler
      */
     private function _getCleanReviewStatus(string $dirty_review_status): string
     {
-        $clean_review_status = str_replace(
-            REVIEW_STATUS_PREFIX,
-            "",
-            $dirty_review_status
-        );
+        $clean_review_status = str_replace(REVIEW_STATUS_PREFIX, "", $dirty_review_status);
         return $clean_review_status;
     }
 
@@ -292,13 +288,8 @@ class Review extends DBHandler
                 $service_obj_prefix = SERVICE_OBJ_PREFIX;
                 $service_tag_name = "{$service_obj_prefix}{$service_id}";
                 if (isset($_POST[$service_tag_name])) {
-                    $query = "INSERT INTO review_n_service (
-                                  review_id,
-                                  service_id
-                              ) VALUES (
-                                  :review_id,
-                                  :service_id
-                              )";
+                    $query = "INSERT INTO review_n_service (review_id, service_id) 
+                              VALUES (:review_id, :service_id)";
                     $pdo_conn = $this->getPDOConn();
                     $stmt = $pdo_conn->prepare($query);
                     $stmt->execute([

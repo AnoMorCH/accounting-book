@@ -22,6 +22,7 @@ class DBHandler
         // символов в БД.
         $dsn = "mysql:host={$host_name};dbname={$db_name};charset=UTF8";
 
+        // Получить PDO соединение.
         $pdo = new PDO($dsn, $username, $password);
 
         // Установить способ выгрузки PDO-объектов как основной метод 
@@ -65,8 +66,9 @@ class DBHandler
         string $attr_value = null
     ): array {
         $pdo_conn = $this->getPDOConn();
-        if (is_null($attr_name) || is_null($attr_value)) {
-            $query = "SELECT * FROM {$table_name}";
+        if (is_null($attr_name) && is_null($attr_value)) {
+            $query = "SELECT * 
+                      FROM {$table_name}";
             $stmt = $pdo_conn->prepare($query);
             $stmt->execute();
         } else {

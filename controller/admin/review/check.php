@@ -13,6 +13,7 @@ include_once TOP_DIR . "/helper.php";
 function check(): string
 {
     (new Access(UserPosition::Admin->value))->redirectUserToHisHomepageIfNeeded();
+
     $review_id = $_GET["id"];
     $review = new Review();
     $review_obj = $review->get($review_id);
