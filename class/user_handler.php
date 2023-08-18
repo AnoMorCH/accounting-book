@@ -1,6 +1,7 @@
 <?php
 include_once "../consts.php";
 include_once TOP_DIR . "/class/db_handler.php";
+include_once TOP_DIR . "/enum/user_position.php";
 
 /**
  * Класс, который используется для реализации любых манипуляций, связанных с 
@@ -50,6 +51,7 @@ class UserHandler extends DBHandler
      */
     public function logout(): void
     {
+        print_r("I am here");
         if (isset($_COOKIE[COOKIE_NAME_OF_USER_ID])) {
             unset($_COOKIE[COOKIE_NAME_OF_USER_ID]);
         }
