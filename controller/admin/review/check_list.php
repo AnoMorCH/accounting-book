@@ -1,4 +1,5 @@
 <?php
+
 include_once "../../../consts.php";
 include_once TOP_DIR . "/class/access.php";
 include_once TOP_DIR . "/class/context.php";
@@ -10,7 +11,7 @@ include_once TOP_DIR . "/helper.php";
  * Обработать контроллер по демонстрации содержимого шаблона
  * admin/review/check-list.php.
  */
-function check_list(): string 
+function check_list(): string
 {
     (new Access(UserPosition::Admin->value))->redirectUserToHisHomepageIfNeeded();
     $context = new Context();

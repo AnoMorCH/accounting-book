@@ -1,4 +1,5 @@
 <?php
+
 include_once "../../../consts.php";
 include_once TOP_DIR . "/class/access.php";
 include_once TOP_DIR . "/class/context.php";

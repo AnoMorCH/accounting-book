@@ -1,4 +1,5 @@
 <?php
+
 include_once "../consts.php";
 include_once TOP_DIR . "/class/db_handler.php";
 include_once TOP_DIR . "/enum/user_position.php";
@@ -69,7 +70,7 @@ class UserHandler extends DBHandler
     /**
      * Вернуть url домашней страницы пользователя.
      */
-    public function getHomepageUrl(string $user_position): string 
+    public function getHomepageUrl(string $user_position): string
     {
         $basic_homepages_urls = $this->_getBasicHomepage();
         $homepage_url = $basic_homepages_urls[$user_position];

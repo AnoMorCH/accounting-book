@@ -233,7 +233,7 @@ class Review extends DBHandler
     public function getStatistics(string $user_id): array
     {
         $accepted_reviews_amount = $this->_getReviewsAmount(
-            ReviewStatus::Published->value, 
+            ReviewStatus::Published->value,
             $user_id
         );
         $declined_reviews_amount = $this->_getReviewsAmount(
@@ -256,8 +256,8 @@ class Review extends DBHandler
         string $user_id
     ): int {
         $review_status = $this->getObject(
-            "review_status", 
-            "name", 
+            "review_status",
+            "name",
             $type_of_review
         );
         $query = "SELECT *

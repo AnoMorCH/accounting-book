@@ -1,4 +1,5 @@
 <?php
+
 include_once "../consts.php";
 include_once TOP_DIR . "/urls.php";
 
@@ -6,13 +7,13 @@ include_once TOP_DIR . "/urls.php";
  * Класс для взаимодействия с контекстом - объектом, который служит для 
  * передачи данных из серверной части приложения, PHP, в HTML-шаблоны. 
  */
-class Context 
+class Context
 {
     public $value;
 
     public function __construct()
     {
-        $this->value = $this->_getBasicValue(); 
+        $this->value = $this->_getBasicValue();
     }
 
     /**
@@ -26,7 +27,7 @@ class Context
     /**
      * Инициализировать контекст.
      */
-    private function _getBasicValue(): array 
+    private function _getBasicValue(): array
     {
         $basic_value = [
             "urls" => URLS,

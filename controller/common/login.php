@@ -1,4 +1,5 @@
 <?php
+
 include_once "../../consts.php";
 include_once TOP_DIR . "/class/access.php";
 include_once TOP_DIR . "/class/user_handler.php";
@@ -13,7 +14,7 @@ function login(): string
 {
     (new Access(UserPosition::Guest->value))->redirectUserToHisHomepageIfNeeded();
     $context = new Context();
-    
+
     if ($_SERVER["REQUEST_METHOD"] == "POST") {
         try {
             $user_handler = new UserHandler();
@@ -25,7 +26,7 @@ function login(): string
             $context->append("login_failed", $exception->getMessage());
         }
     }
-    
+
     $template_path = TOP_DIR . "/view/common/login.html";
     return get_html($template_path, $context->value);
 }

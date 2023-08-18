@@ -1,4 +1,5 @@
 <?php
+
 include_once "./consts.php";
 
 // Подключение PHP Mailer, установленного через composer.

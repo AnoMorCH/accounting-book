@@ -1,4 +1,5 @@
 <?php
+
 include_once "../../../consts.php";
 include_once TOP_DIR . "/class/access.php";
 include_once TOP_DIR . "/class/context.php";
@@ -25,7 +26,7 @@ function edit(): string
     $context->append("available_services", $db_handler->getObjects("service"));
     $context->append("review", $review->get($review_id));
     $context->append("selected_services_ids", $review->getSelectedServicesIds($review_id));
-    
+
     if ($_SERVER["REQUEST_METHOD"] == "POST") {
         try {
             $review->edit(

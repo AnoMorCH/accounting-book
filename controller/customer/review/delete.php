@@ -12,7 +12,7 @@ include_once TOP_DIR . "/helper.php";
  * Обработать контроллер по удалению одного или нескольких отзывов (шаблоны
  * отсутствуют).
  */
-function delete(): void 
+function delete(): void
 {
     (new Access(UserPosition::Customer->value))->redirectUserToHisHomepageIfNeeded();
     $review = new Review();
