@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Санаторий</title>
+    <link rel="stylesheet" href="/au/static/css/brightlight-green.css" />
+    <link rel="stylesheet" href="/au/static/css/main.css" />
+  </head>
+
+  <body>
+    <nav id="nav-customer">
+      <?php include TOP_DIR . "/navbar/customer.php"; ?>
+    </nav>
+
+    <section container>
+      <h3>Статистика</h3>
+
+      <p>
+        Данная статистика показывает, сколько отзывов вы написали и сколько
+        из них было успешно опубликовано.
+      </p>
+
+      <canvas id="statistics-chart"></canvas>
+    </section>
+
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <script src="/au/static/js/chart-utils.min.js"></script>
+    <script src="/au/static/js/statistics.js"></script>
+  </body>
+</html>

@@ -46,7 +46,7 @@ class Review extends DBHandler
      * Получить все экземпляры сущности review из БД, где отзыв имеет статус
      * опубликованного.
      */
-    public function getAllPublished(): array 
+    public function getAllPublished(): array
     {
         $review_published_status = $this->getObject("review_status", "name", ReviewStatus::Published->value);
         $objs = $this->getObjects("review", "status_id", $review_published_status->id);
@@ -127,7 +127,7 @@ class Review extends DBHandler
                   SET status_id = :status_id
                   WHERE id = :id";
         $pdo_conn = $this->getPDOConn();
-        $stmt =$pdo_conn->prepare($query);
+        $stmt = $pdo_conn->prepare($query);
         $stmt->execute([
             "status_id" => $this->_getCleanReviewStatus($dirty_review_status),
             "id" => $review_id
@@ -147,7 +147,7 @@ class Review extends DBHandler
     /**
      * Получить непроверенные отзывы.
      */
-    public function getUncheckedAndSuspended(): array 
+    public function getUncheckedAndSuspended(): array
     {
         $unchecked_review_status = $this->getObject("review_status", "name", ReviewStatus::NotChecked->value);
         $unchecked_reviews = $this->getObjects("review", "status_id", $unchecked_review_status->id);
@@ -224,6 +224,54 @@ class Review extends DBHandler
     {
         $available_statuses = $this->getObjects("review_status");
         return $available_statuses;
+    }
+
+    /**
+     * Вернуть статистику, в которой отображено, сколько у пользователя 
+     * одобренных и заблокированных отзывов.
+     */
+    public function getStatistics(string $user_id): array
+    {
+        $accepted_reviews_amount = $this->_getReviewsAmount(
+            ReviewStatus::Published->value, 
+            $user_id
+        );
+        $declined_reviews_amount = $this->_getReviewsAmount(
+            ReviewStatus::Suspended->value,
+            $user_id
+        );
+        $statistics = [
+            "accepted_reviews_amount" => $accepted_reviews_amount,
+            "declined_reviews_amount" => $declined_reviews_amount
+        ];
+        return $statistics;
+    }
+
+    /**
+     * Вернуть кол-во отзывов определенного типа у пользователя с конкретным 
+     * ИД (например, количество одобренных отзывов и т.д.)
+     */
+    private function _getReviewsAmount(
+        string $type_of_review,
+        string $user_id
+    ): int {
+        $review_status = $this->getObject(
+            "review_status", 
+            "name", 
+            $type_of_review
+        );
+        $query = "SELECT *
+                  FROM review
+                  WHERE user_id = :user_id
+                        AND status_id = :status_id";
+        $pdo_conn = $this->getPDOConn();
+        $stmt = $pdo_conn->prepare($query);
+        $stmt->execute([
+            "user_id" => $user_id,
+            "status_id" => $review_status->id
+        ]);
+        $reviews_amount = $stmt->rowCount();
+        return $reviews_amount;
     }
 
     /**

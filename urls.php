@@ -23,6 +23,8 @@ $urls = [
     "edit_review_page" => "/$subfolder/$controller_folder/$customer_folder/$review_folder/edit.php",
     "delete_review_page" => "/$subfolder/$controller_folder/$customer_folder/$review_folder/delete.php",
     "public_reviews_page" => "/$subfolder/$controller_folder/$customer_folder/$review_folder/public_list.php",
+    "statistics_of_reviews_page" => "/$subfolder/$controller_folder/$customer_folder/$review_folder/statistics.php",
+    "get_statistics_api" => "/$subfolder/$controller_folder/$customer_folder/$review_folder/api/get_statistics.php",
     
     // Страницы администратора.
     "admin_homepage" => "/$subfolder/$controller_folder/$admin_folder/$review_folder/check_list.php",
