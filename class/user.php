@@ -8,7 +8,7 @@ include_once TOP_DIR . "/enum/user_position.php";
  * Класс, который используется для реализации любых манипуляций, связанных с 
  * пользователем.
  */
-class UserHandler extends DBHandler
+class User extends DBHandler
 {
     const STANDARD_POSITION = UserPosition::Customer->value;
 

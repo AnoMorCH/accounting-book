@@ -5,7 +5,7 @@ include_once TOP_DIR . "/class/access.php";
 include_once TOP_DIR . "/class/context.php";
 include_once TOP_DIR . "/class/db_handler.php";
 include_once TOP_DIR . "/class/review.php";
-include_once TOP_DIR . "/class/user_handler.php";
+include_once TOP_DIR . "/class/user.php";
 include_once TOP_DIR . "/enum/user_position.php";
 include_once TOP_DIR . "/helper.php";
 
@@ -31,7 +31,7 @@ function edit(): string
         try {
             $review->edit(
                 $review_id,
-                (new UserHandler())->getCurrentId(),
+                (new User())->getCurrentId(),
                 $_POST["room-number"],
                 $_POST["coming-date"],
                 $_POST["leaving-date"],

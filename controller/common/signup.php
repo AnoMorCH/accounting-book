@@ -2,7 +2,7 @@
 
 include_once "../../consts.php";
 include_once TOP_DIR . "/class/access.php";
-include_once TOP_DIR . "/class/user_handler.php";
+include_once TOP_DIR . "/class/user.php";
 include_once TOP_DIR . "/class/context.php";
 include_once TOP_DIR . "/enum/user_position.php";
 include_once TOP_DIR . "/helper.php";
@@ -17,7 +17,7 @@ function signup(): string
 
     if ($_SERVER["REQUEST_METHOD"] == "POST") {
         try {
-            (new UserHandler())->signup(
+            (new User())->signup(
                 $_POST["email"],
                 $_POST["password"],
                 $_POST["first-name"],

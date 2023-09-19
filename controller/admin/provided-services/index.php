@@ -3,7 +3,7 @@
 include_once "../../../consts.php";
 include_once TOP_DIR . "/class/access.php";
 include_once TOP_DIR . "/class/context.php";
-include_once TOP_DIR . "/class/user_handler.php";
+include_once TOP_DIR . "/class/user.php";
 include_once TOP_DIR . "/helper.php";
 
 /**
@@ -17,9 +17,9 @@ function index(): string
 
     if ($_SERVER["REQUEST_METHOD"] == "GET") {
         $user_id = $_GET["id"];
-        $user_handler = new UserHandler();
-        $context->append("user", $user_handler->get($user_id));
-        $context->append("provided_services", $user_handler->getProvidedServices($user_id));
+        $user = new User();
+        $context->append("user", $user->get($user_id));
+        $context->append("provided_services", $user->getProvidedServices($user_id));
     }
 
     $template_path = "view/admin/provided-services/index.html";

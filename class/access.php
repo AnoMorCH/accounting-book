@@ -2,13 +2,13 @@
 
 include_once "../consts.php";
 include_once TOP_DIR . "/urls.php";
-include_once TOP_DIR . "/class/user_handler.php";
+include_once TOP_DIR . "/class/user.php";
 include_once TOP_DIR . "/helper.php";
 
 /**
  * Класс для контроля доступа пользователя к тем или иным участкам проекта.
  */
-class Access extends UserHandler
+class Access extends User
 {
     private $_authorized_user_position;
     private $_actual_user_position;
