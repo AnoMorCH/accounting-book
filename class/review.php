@@ -321,6 +321,7 @@ class Review extends DBHandler
         $this->deleteObjects("review_n_service", "review_id", $review_id);
     }
 
+    // TODO. There should be a way to do it better.
     /**
      * На основании данных, введенных пользователем в веб-интерфейсе, 
      * заполнить таблицу review_n_service.

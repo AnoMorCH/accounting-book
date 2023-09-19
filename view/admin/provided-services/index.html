@@ -1,0 +1,34 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Санаторий</title>
+    <link rel="stylesheet" href="/au/static/css/brightlight-green.css" />
+    <link rel="stylesheet" href="/au/static/css/main.css" />
+  </head>
+
+  <body>
+    <nav>
+      <?php include TOP_DIR . "/navbar/admin.php"; ?>
+    </nav>
+    
+    <section container>
+      <h3>
+        Услуги, оказанные
+        <?=$user->first_name?>
+        <?=$user->last_name?>
+      </h3>
+      
+      <ol>
+        <?php
+        foreach ($provided_services as $provided_service) {
+          echo "
+            <li>{$provided_service->name}</li>
+          ";
+        }
+        ?>
+      </ol>
+    </section>
+  </body>
+</html>

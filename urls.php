@@ -7,6 +7,7 @@ $unauthorized_user_folder = "common";
 $customer_folder = "customer";
 $admin_folder = "admin";
 $review_folder = "review";
+$provided_services_folder = "provided-services";
 
 // URL-ссылки.
 $urls = [
@@ -32,6 +33,9 @@ $urls = [
     "admin_this_review_page" => "/$subfolder/$controller_folder/$admin_folder/$review_folder/index.php",
     "check_review_page" => "/$subfolder/$controller_folder/$admin_folder/$review_folder/check.php",
     "all_reviews_page" => "/$subfolder/$controller_folder/$admin_folder/$review_folder/all_list.php",
+    "all_provided_services_page" => "/$subfolder/$controller_folder/$admin_folder/$provided_services_folder/all_list.php",
+    "users_services_pages" => "/$subfolder/$controller_folder/$admin_folder/$provided_services_folder/index.php",
+    "add_provided_service_page" => "/$subfolder/$controller_folder/$admin_folder/$provided_services_folder/create.php",
     
     // Общие страницы авторизованных пользователей.
     "logout_page" => "/$subfolder/$controller_folder/$unauthorized_user_folder/logout.php",

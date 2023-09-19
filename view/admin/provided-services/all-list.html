@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Санаторий</title>
+    <link rel="stylesheet" href="/au/static/css/brightlight-green.css" />
+    <link rel="stylesheet" href="/au/static/css/main.css" />
+  </head>
+
+  <body>
+    <nav>
+      <?php include TOP_DIR . "/navbar/admin.php"; ?>
+    </nav>
+
+    <section container>
+      <h3>Оказанные услуги</h3>
+
+      <p>
+        Здесь вы можете добавить или проверить информацию об использованнымх
+        человеком услугах. Это поможет остальным администраторам проверить
+        степень достоверности того или иного отзыва.
+      </p>
+      
+      <p>
+        Внимание! Добавленную информацию нельзя удалить или изменить. Для этого
+        просим вас обратиться к владельцу данного проекта.
+      </p>
+      
+      <div>
+        <p>
+          <b>Список оказанных услуг</b>
+        </p>
+
+        <p>
+          <a href='<?=$urls["add_provided_service_page"]?>'>Добавить данные об оказанной услуге</a>
+        </p>
+        
+        <ol>
+          <?php
+          foreach ($users_list as $user) {
+            echo "
+              <li>
+                <div>
+                  <a href='{$urls["users_services_pages"]}?id={$user->id}'>
+                    {$user->first_name}
+                    {$user->last_name}
+                  </a>
+                </div>
+              </li>
+            ";
+          }
+          ?>
+        </ol>
+      </div>
+    </section>
+  </body>
+</html>

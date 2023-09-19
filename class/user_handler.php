@@ -52,7 +52,6 @@ class UserHandler extends DBHandler
      */
     public function logout(): void
     {
-        print_r("I am here");
         if (isset($_COOKIE[COOKIE_NAME_OF_USER_ID])) {
             unset($_COOKIE[COOKIE_NAME_OF_USER_ID]);
         }
@@ -75,6 +74,97 @@ class UserHandler extends DBHandler
         $basic_homepages_urls = $this->_getBasicHomepage();
         $homepage_url = $basic_homepages_urls[$user_position];
         return $homepage_url;
+    }
+
+    /**
+     * Вернуть объект пользователя.
+     */
+    public function get(int $user_id): stdClass
+    {
+        $obj = $this->getObject("user", "id", $user_id);
+        return $obj;
+    }
+
+    /**
+     * Вернуть текущую позицию пользователя.
+     */
+    public function getPosition(): string
+    {
+        if ($this->_isAuthenticated()) {
+            $position_id = $this->_getPositionId();
+            $position_obj = $this->getObject("user_position", "id", $position_id);
+            $position = $position_obj->name;
+            return $position;
+        } else {
+            return UserPosition::Guest->value;
+        }
+    }
+
+    /**
+     * Вернуть информацию обо всех существующих пользователях (или узкой группы желаемых пользователей).
+     */
+    public function getAll(int $position_id = null): array
+    {
+        $objs = [];
+        if (is_null($position_id)) {
+            $objs = $this->getObjects("user");
+        } else {
+            $objs = $this->getObjects("user", "position_id", $position_id);
+        }
+        return $objs;
+    }
+
+    /**
+     * Получить ИД пользователя с позицией "клиент".
+     */
+    public function getCustomerPositionId(): int
+    {
+        return $this->_getStandardPositionId();
+    }
+
+    /**
+     * Вернуть услуги, оказанные пользователю с указанным идентификатором.
+     */
+    public function getProvidedServices(int $user_id): array
+    {
+        $users_n_services_ids = $this->getObjects("user_n_service", "user_id", $user_id);
+        $services = [];
+        foreach ($users_n_services_ids as $user_n_service_ids) {
+            $service_id = $user_n_service_ids->service_id;
+            $service = $this->getObject("service", "id", $service_id);
+            array_push($services, $service);
+        }
+        return $services;
+    }
+
+    // TODO. There should be a way to do it better.
+    /**
+     * Добавить услуги, оказанные пользователю.
+     */
+    public function addProvidedServices(int $user_id): void
+    {
+        for (
+            $service_id = $this->getObjectByLimitId(LimitId::Min->value, "service")->id;
+            $service_id <= $this->getObjectByLimitId(LimitId::Max->value, "service")->id;
+            $service_id++
+        ) {
+            try {
+                $service_obj_prefix = SERVICE_OBJ_PREFIX;
+                $service_tag_name = "{$service_obj_prefix}{$service_id}";
+                if (isset($_POST[$service_tag_name])) {
+                    $query = "INSERT INTO user_n_service (user_id, service_id) 
+                              VALUES (:user_id, :service_id)";
+                    $pdo_conn = $this->getPDOConn();
+                    $stmt = $pdo_conn->prepare($query);
+                    $stmt->execute([
+                        "user_id" => $user_id,
+                        "service_id" => $service_id
+                    ]);
+                }
+            } catch (Exception $exception) {
+                continue;
+            }
+        }
     }
 
     /**
@@ -110,21 +200,6 @@ class UserHandler extends DBHandler
         string $inputted_password
     ): bool {
         return $actual_password == $inputted_password;
-    }
-
-    /**
-     * Вернуть текущую позицию пользователя.
-     */
-    public function getPosition(): string
-    {
-        if ($this->_isAuthenticated()) {
-            $position_id = $this->_getPositionId();
-            $position_obj = $this->getObject("user_position", "id", $position_id);
-            $position = $position_obj->name;
-            return $position;
-        } else {
-            return UserPosition::Guest->value;
-        }
     }
 
     /**
