@@ -1,5 +1,6 @@
 <?php
 
+// TODO. You can protect table names here using a list of predefined table names.
 include_once "../consts.php";
 include_once TOP_DIR . "/enum/limit_id.php";
 
@@ -8,28 +9,50 @@ include_once TOP_DIR . "/enum/limit_id.php";
  */
 class DBHandler
 {
+    private $_host_name = "localhost";
+    private $_username = "root";
+    private $_password = "";
+    private $_db_name = "sanatorium";
+
     /**
      * Возвращает переменную для работы с PDO подключением.
      */
     public function getPDOConn(): PDO
     {
-        $host_name = "localhost";
-        $username = "root";
-        $password = "";
-        $db_name = "sanatorium";
 
         // Используй кодировку UTF8, чтобы разрешить загрузку кириллических
         // символов в БД.
-        $dsn = "mysql:host={$host_name};dbname={$db_name};charset=UTF8";
+        $dsn = "mysql:host={$this->_host_name};dbname={$this->_db_name};charset=UTF8";
 
         // Получить PDO соединение.
-        $pdo = new PDO($dsn, $username, $password);
+        $pdo = new PDO($dsn, $this->_username, $this->_password);
 
         // Установить способ выгрузки PDO-объектов как основной метод 
         // получения информации из БД.
         $pdo->setAttribute(PDO::ATTR_DEFAULT_FETCH_MODE, PDO::FETCH_OBJ);
 
         return $pdo;
+    }
+
+    /**
+     * Возвращает переменную для работы с MySQLi подключением.
+     */
+    public function getMySQLi(): mysqli
+    {
+        $mysqli = new mysqli(
+            $this->_host_name, 
+            $this->_username,
+            $this->_password,
+            $this->_db_name
+        );
+
+        if ($mysqli->connect_errno) {
+            die("Ошибка! {$mysqli->connect_error}");
+        }
+
+        $mysqli->set_charset("utf8");
+
+        return $mysqli;
     }
 
     /**

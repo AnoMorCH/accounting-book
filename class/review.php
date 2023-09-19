@@ -121,17 +121,34 @@ class Review extends DBHandler
      * Изменяет существующий отзыв на основании проверки, выполненной
      * администратором через веб-интерфейс.
      */
+    // ! Реализация хранимых процедур.
+    // * Обычная версия функции.
+    // public function check(string $dirty_review_status, string $review_id): void
+    // {
+    //     $query = "UPDATE review
+    //               SET status_id = :status_id
+    //               WHERE id = :id";
+    //     $pdo_conn = $this->getPDOConn();
+    //     $stmt = $pdo_conn->prepare($query);
+    //     $stmt->execute([
+    //         "status_id" => $this->_getCleanReviewStatus($dirty_review_status),
+    //         "id" => $review_id
+    //     ]);
+    // }
+    // * Версия функции с хранимыми процедурами.
     public function check(string $dirty_review_status, string $review_id): void
     {
-        $query = "UPDATE review
-                  SET status_id = :status_id
-                  WHERE id = :id";
-        $pdo_conn = $this->getPDOConn();
-        $stmt = $pdo_conn->prepare($query);
-        $stmt->execute([
-            "status_id" => $this->_getCleanReviewStatus($dirty_review_status),
-            "id" => $review_id
-        ]);
+        $clean_review_status = $this->_getCleanReviewStatus($dirty_review_status);
+        $procedure_name = 'Update Review';
+        $mysqli = $this->getMySQLi();
+        $mysqli->query("DROP PROCEDURE IF EXISTS `{$procedure_name}`");
+        $mysqli->query("CREATE PROCEDURE `{$procedure_name}`()
+                        BEGIN
+                            UPDATE review
+                            SET status_id = {$clean_review_status}
+                            WHERE id = {$review_id};
+                        END");
+        $mysqli->query("CALL `{$procedure_name}`();");
     }
 
     /**
