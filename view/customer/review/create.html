@@ -42,12 +42,12 @@
             <span>Список оказанных услуг</span>
             <div class="basic-div">
               <?php
-              foreach ($available_services as $available_service) {
-                $identifier = $service_obj_prefix . $available_service->id;
+              foreach ($provided_services as $provided_service) {
+                $identifier = $service_obj_prefix . $provided_service->id;
                 echo "
                   <span>
                     <input type='checkbox' name='{$identifier}' id='{$identifier}'>
-                    <label for='{$identifier}'>{$available_service->name}</label>
+                    <label for='{$identifier}'>{$provided_service->name}</label>
                   </span>
                 ";
               }
