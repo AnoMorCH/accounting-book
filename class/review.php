@@ -64,6 +64,9 @@ class Review extends DBHandler
         string $living_stop_date,
         string $text
     ): void {
+        if (!$this->_isDateCreationCorrect($living_stop_date, $living_start_date)) {
+            throw new Exception("Ошибка! Дата выселения поставлена раньше чем дата заселения.");
+        }
         $this->_create(
             $user_id,
             $room_number,
@@ -159,6 +162,16 @@ class Review extends DBHandler
     {
         $clean_review_status = str_replace(REVIEW_STATUS_PREFIX, "", $dirty_review_status);
         return $clean_review_status;
+    }
+
+    /**
+     * Проверить, поставлена ли дата выселения позже чем дата заселения.
+     */
+    private function _isDateCreationCorrect(string $living_stop_date, string $living_start_date): bool
+    {
+        $start_date = new DateTime($living_start_date);
+        $stop_date = new DateTime($living_stop_date);
+        return $start_date < $stop_date;
     }
 
     /**
