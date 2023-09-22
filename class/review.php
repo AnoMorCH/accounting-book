@@ -88,7 +88,6 @@ class Review extends DBHandler
     public function edit(
         string $review_id,
         string $user_id,
-        string $room_number,
         string $living_start_date,
         string $living_stop_date,
         string $text
@@ -96,7 +95,6 @@ class Review extends DBHandler
         $this->_edit(
             $review_id,
             $user_id,
-            $room_number,
             $living_start_date,
             $living_stop_date,
             $text
@@ -310,14 +308,12 @@ class Review extends DBHandler
     private function _edit(
         string $review_id,
         string $user_id,
-        string $room_number,
         string $living_start_date,
         string $living_stop_date,
         string $text
     ): void {
         $query = "UPDATE review
                   SET user_id = :user_id,
-                      room_number = :room_number,
                       living_start_date = :living_start_date,
                       living_stop_date = :living_stop_date,
                       text = :text
@@ -326,7 +322,6 @@ class Review extends DBHandler
         $stmt = $pdo_conn->prepare($query);
         $stmt->execute([
             "user_id" => $user_id,
-            "room_number" => $room_number,
             "living_start_date" => $living_start_date,
             "living_stop_date" => $living_stop_date,
             "text" => $text,

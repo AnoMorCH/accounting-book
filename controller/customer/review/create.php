@@ -17,16 +17,14 @@ function create(): string
 {
     (new Access(UserPosition::Customer->value))->redirectUserToHisHomepageIfNeeded();
     $context = new Context();
-    $db_handler = new DBHandler();
     $current_user_id = (new User())->getCurrentId();
-    $context->append("rooms", $db_handler->getObjects("room"));
     $context->append("provided_services", (new User())->getProvidedServices($current_user_id));
 
     if ($_SERVER["REQUEST_METHOD"] == "POST") {
         try {
             (new Review())->create(
                 $current_user_id,
-                $_POST["room-number"],
+                (new User())->getRandomRoom()->number,
                 $_POST["coming-date"],
                 $_POST["leaving-date"],
                 $_POST["review-text"]

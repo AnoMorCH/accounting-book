@@ -22,7 +22,6 @@ function edit(): string
     $db_handler = new DBHandler();
     $review = new Review();
 
-    $context->append("rooms", $db_handler->getObjects("room"));
     $context->append("available_services", $db_handler->getObjects("service"));
     $context->append("review", $review->get($review_id));
     $context->append("selected_services_ids", $review->getSelectedServicesIds($review_id));
@@ -32,7 +31,6 @@ function edit(): string
             $review->edit(
                 $review_id,
                 (new User())->getCurrentId(),
-                $_POST["room-number"],
                 $_POST["coming-date"],
                 $_POST["leaving-date"],
                 $_POST["review-text"]

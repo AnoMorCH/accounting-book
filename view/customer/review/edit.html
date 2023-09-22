@@ -21,20 +21,6 @@
           <legend>Пожалуйста, введите данные</legend>
 
           <div class="grid grid-two-columns-wrapper">
-            <label for="room-number">Номер комнаты</label>
-
-            <select name="room-number" id="room-number">
-              <?php
-              foreach ($rooms as $room) {
-                if ($room->number == $review->room_number) {
-                  echo "<option value='{$room->number}' selected>{$room->number}</option>";
-                } else {
-                  echo "<option value='{$room->number}'>{$room->number}</option>";
-                }
-              }
-              ?>
-            </select>
-
             <label for="coming-date">Дата заселения</label>
             <input type="date" name="coming-date" id="coming-date" value="<?=$review->living_start_date?>" required>
 

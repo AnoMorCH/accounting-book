@@ -168,6 +168,17 @@ class User extends DBHandler
     }
 
     /**
+     * Получить случайный объект комнаты.
+     */
+    public function getRandomRoom(): stdClass {
+        $query = "SELECT * FROM room ORDER BY RAND() LIMIT 1";
+        $pdo_conn = $this->getPDOConn();
+        $stmt = $pdo_conn->prepare($query);
+        $stmt->execute();
+        return $stmt->fetch();
+    }
+
+    /**
      * Получить словарь типа "роль пользователя" => "ссылка на домашнюю стр.".
      */
     protected function _getBasicHomepage(): array
@@ -178,6 +189,14 @@ class User extends DBHandler
             UserPosition::Admin->value => URLS["admin_homepage"],
         ];
         return $basic_users_homepage;
+    }
+
+    /**
+     * Проверить, авторизовался ли пользователь.
+     */
+    private function _isAuthenticated(): bool
+    {
+        return isset($_COOKIE[COOKIE_NAME_OF_USER_ID]);
     }
 
     /**
@@ -246,14 +265,6 @@ class User extends DBHandler
             "last_name" => $last_name,
             "position_id" => $this->_getStandardPositionId()
         ]);
-    }
-
-    /**
-     * Проверить, авторизовался ли пользователь.
-     */
-    public function _isAuthenticated(): bool
-    {
-        return isset($_COOKIE[COOKIE_NAME_OF_USER_ID]);
     }
 
     /**

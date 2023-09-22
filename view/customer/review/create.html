@@ -21,18 +21,6 @@
           <legend>Пожалуйста, введите данные</legend>
 
           <div class="grid grid-two-columns-wrapper">
-            <label for="room-number">Номер комнаты</label>
-
-            <select name="room-number" id="room-number">
-              <?php
-              foreach ($rooms as $room) {
-                echo "
-                  <option value='{$room->number}'>{$room->number}</option>
-                ";
-              }
-              ?>
-            </select>
-
             <label for="coming-date">Дата заселения</label>
             <input type="date" name="coming-date" id="coming-date" required>
 
